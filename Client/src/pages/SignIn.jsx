@@ -25,11 +25,11 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+    <div className="min-h-screen  bg-white/70 flex items-start mt-2 justify-center p-4 ">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
         {/* Header */}
-        <div className="bg-indigo-600 p-6 text-center">
-          <h1 className="text-2xl font-bold text-white">Sign In</h1>
+        <div className="bg-[#403D39] p-6 text-center">
+          <h1 className="text-2xl font-bold text-white">login</h1>
          
         </div>
 
@@ -75,9 +75,9 @@ export default function SignIn() {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors font-medium"
+                className="w-full bg-[#403D39] text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors font-medium"
               >
-                Sign Up
+                Login
               </button>
             </div>
           </form>
