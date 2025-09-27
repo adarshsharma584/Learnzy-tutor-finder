@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Hero() {
   return (
-    <div className="bg-white font-[tahoma]">
+    <div className="bg-white ">
       <div className="w-[90%] mx-auto flex items-center h-[calc(100vh-5rem)]">
         {/* Left Side: Text Content */}
         <div className="flex-1 pr-16">

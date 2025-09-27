@@ -12,7 +12,7 @@ function Navbar() {
         <ul className="flex items-center gap-8 text-lg rounded-2xl shadow-lg  bg-white px-6  py-4">
           {[
             { to: "/", text: "Home" },
-            { to: "/search-tutor", text: "Find a Tutor" },
+            { to: "/tutions", text: "Find a Tutor" },
             { to: "/become-tutor", text: "Become a Tutor" },
             { to: "/about", text: "About Us" },
             { to: "/contact", text: "Contact Us" },

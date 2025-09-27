@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@plugin "daisyui";
+
+
+
+*{
+
+    font-family:"tahoma"
+
+}
+body{
+    min-height: 100vh;
+    min-width: vw;
+    background-color: #FFFCF2;
+}
