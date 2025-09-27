@@ -24,7 +24,7 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+      <div className="bg-white rounded-xl border-1 border-[#403d399a] shadow-2xl w-full max-w-md overflow-hidden">
         {/* Header */}
         <div className="bg-[#403D39] p-6 text-center">
           <h1 className="text-2xl font-bold text-white">Create Your Account</h1>

@@ -25,8 +25,8 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen  bg-white/70 flex items-start mt-2 justify-center p-4 ">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+    <div className="min-h-screen  bg-white flex items-start mt-2 justify-center p-4 ">
+      <div className="bg-white border-1 border-[#403d399a] rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
         {/* Header */}
         <div className="bg-[#403D39] p-6 text-center">
           <h1 className="text-2xl font-bold text-white">login</h1>

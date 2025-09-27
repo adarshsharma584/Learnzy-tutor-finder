@@ -7,10 +7,10 @@ function Navbar() {
     <header className="bg-white/50 backdrop-blur-md sticky">
       {/* sticky top-0 z-50 */}
       <nav className="h-20 w-[90%] mx-auto flex justify-between items-center">
-        <Link to="/" className="text-4xl font-bold text-gray-600">
+        <Link to="/" className="text-4xl font-bold text-sky-800">
           Learn-zy
         </Link>
-        <ul className="flex items-center gap-8 text-lg rounded-2xl shadow-lg  bg-white px-6  py-4">
+        <ul className="flex items-center gap-8 text-lg border-1 border-gray-200 rounded-xl shadow-lg  bg-white px-6  py-4">
           {[
             { to: "/", text: "Home" },
             { to: "/tutions", text: "Find a Tutor" },
