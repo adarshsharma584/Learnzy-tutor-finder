@@ -6,17 +6,20 @@ function Navbar() {
     <>
     <header className="bg-white/50 backdrop-blur-md sticky">
       {/* sticky top-0 z-50 */}
-      <nav className="h-20 w-[90%] mx-auto flex justify-between items-center">
+      <nav className="h-[70px] w-[90%] pt-3 mx-auto flex justify-between items-center">
         <Link to="/" className="text-4xl font-bold text-sky-800">
           Learn-zy
         </Link>
-        <ul className="flex items-center gap-8 text-lg border-1 border-gray-200 rounded-xl shadow-lg  bg-white px-6  py-4">
+          <ul className="flex items-end font-medium h-10 gap-8 text-[18.7px] ">
+         {/* border-1 border-gray-200 rounded-xl shadow-lg  bg-white px-6  
+        py-4
+        "> */}
           {[
             { to: "/", text: "Home" },
             { to: "/tutions", text: "Find a Tutor" },
             { to: "/become-tutor", text: "Become a Tutor" },
             { to: "/about", text: "About Us" },
-            { to: "/contact", text: "Contact Us" },
+            // { to: "/contact", text: "Contact Us" },
             { to: "/me", text: "Profile" },
           ].map((item) => (
             <li key={item.to}>
@@ -52,7 +55,7 @@ function Navbar() {
       </nav>
       
     </header>
-    <div className="w-[95vw] h-[2px] bg-[#403d39bb] mx-auto mt-2 rounded-4xl"></div>
+    <div className="w-[90vw] h-[2px] bg-gray-400 mx-auto mt-2 rounded-4xl"></div>
     </>
   );
 }

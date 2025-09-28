@@ -2,7 +2,7 @@ import React from 'react'
 
 function SearchInput() {
   return (
-    <div className="w-[60vw] rounded-xl shadow-2xl h-14 my-10 mx-auto ">
+    <div className="w-[60vw] rounded-xl shadow-xl h-14 my-10 mx-auto border-1 border-zinc-200 ">
         <label className="input w-full h-16 flex items-center bg-white text-black/200 rounded-2xl shadow-xl">
     <svg className="h-[1em] text-black opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
       <g
