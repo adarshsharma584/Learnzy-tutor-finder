@@ -5,18 +5,18 @@ import config from "./config/index.js";
 
 const app = express ();
 const PORT = config.PORT;
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(CookieParser());
 
-ConnectDb();
-
-app.get("/",(req,res)=>
-{
-    res.send("hello");
-
+ConnectDb()
+.then(() => {
+    app.listen( PORT, () => {
+        console.log("Server is running on port: ", PORT)
+    });
 });
 
-app.listen(PORT,()=>{
-    console.log(`server is running on port ${PORT}`);
-})
+app.use("/", (_, res) => {
+    res.send("Learnzy Server responding")
+});
