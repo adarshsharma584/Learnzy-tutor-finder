@@ -37,7 +37,7 @@ const tutors = [
     name: "Aditya Parihar",
     subjects: ["Physics", "Mathematics"],
     image:
-      "https://imgs.search.brave.com/XGl1sr9Lk2nO2C5dQEAebXwbQZx49JIDzDJOVLgLhZ0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9wb3J0cmFpdC1t/YWxlLXRlYWNoZXJf/MTAzMDE0Ny0yMzM4/MS5qcGc_c2VtdD1h/aXNfaHlicmlkJnc9/NzQwJnE9ODA",
+      "https://imgs.search.brave.com/EJnN7Kogu-UYvgncaX0etJ_Hy83ovnUaPe7UBpzLtk0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi90ZWFj/aGVyLWNsYXNzcm9v/bS0yOTY3NzM3NS5q/cGc",
     rating: 5,
   },
 
@@ -51,10 +51,10 @@ const tutors = [
   },
   {
     id: 5,
-    name: "Sarthak Sharma",
+    name: "Akash Prajapati",
     subjects: ["History", "English"],
     image:
-      "https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp",
+      "https://imgs.search.brave.com/E2RbHLVsP-D_1GftENPGhs804skHLkktIckXG6KrVIQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQ0/MzQ5OTIyMy9waG90/by9oYXBweS1lbGVt/ZW50YXJ5LXRlYWNo/ZXItaW4tZnJvbnQt/b2YtaGlzLXN0dWRl/bnRzLWluLXRoZS1j/bGFzc3Jvb20uanBn/P3M9NjEyeDYxMiZ3/PTAmaz0yMCZjPXhh/aEtnbnRYak5Vbk05/eTVXQ0pfQ21hdWdN/UzNFRjB5ZV9RSmZB/MThYT3c9",
     rating: 5,
   },
 ];
@@ -69,7 +69,7 @@ function Hero() {
             useEffect(() => {
               const interval = setInterval(() => {
                 setCurrentIndex((prev) => (prev + 1) % slideCount);
-              }, 3000);
+              }, 1200);
               return () => clearInterval(interval);
             }, [slideCount]);
 
@@ -82,7 +82,7 @@ function Hero() {
       <div className="w-[88%] mx-auto flex items-center min-h-[calc(100vh-5rem)] pt-10 pb-1">
         {/* Left Side: Text Content */}
         <div className="flex-1 pr-16 pb-10">
-          <h1 className="text-[70px] font-bold text-black/90 leading-tight">
+          <h1 className="text-[70px] font-bold text-gray-700 leading-tight">
             Education is the <br /> way to
             <span className="text-orange-500"> "Success"</span>
           </h1>
@@ -204,7 +204,7 @@ function Hero() {
       <div className="py-16 bg-white  w-[88%] mx-auto border-t border-[0.6px border-gray-400">
         <div className="w-full mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-600">
-            Meet Our Top Tutors
+            Meet City's Top Tutors
           </h2>
           <p className="mt-4 text-lg font-medium text-gray-500 max-w-3xl mx-auto">
             Get to know the highly-rated educators making a difference in our
@@ -213,7 +213,7 @@ function Hero() {
         </div>
 
         {/* Tutors Carousel */}
-        <div className="relative w-full py-5 px-5 mt-10 my-8 mx-auto overflow-hidden shadow-xl rounded-md bg-gray-100">
+        <div className="relative w-full py-5 px-5 mt-13 my-8 mx-auto overflow-hidden shadow-xl rounded-md bg-gray-100">
           <div
             className="flex transition-transform duration-700"
             style={{
