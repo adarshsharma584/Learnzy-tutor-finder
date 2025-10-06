@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-
+// import {book_logo}  from "../../public/book_logo.png";
 function Navbar() {
   return (
     <>
@@ -8,7 +8,15 @@ function Navbar() {
         {/* sticky top-0 z-50 */}
         <nav className="h-[70px] w-[90%] pt-3 mx-auto flex justify-between items-center">
           <Link to="/" className="text-4xl font-bold text-sky-800">
-            Learn-zy
+            <div className="flex gap-1 items-end">
+              {" "}
+              <img
+                src="../../public/book_logo.png"
+                alt="logo"
+                className="h-[36px] w-auto"
+              />
+              Learn-zy
+            </div>
           </Link>
           <ul className="flex items-end font-medium h-10 gap-8 text-[18.7px] ">
             {/* border-1 border-gray-200 rounded-xl shadow-lg  bg-white px-6  

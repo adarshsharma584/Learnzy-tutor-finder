@@ -51,10 +51,34 @@ const tutors = [
   },
   {
     id: 5,
+    name: "Mithun Prajapati",
+    subjects: ["History", "English"],
+    image:
+      "https://imgs.search.brave.com/hdhWnGEMynOhQTlmehPTeNYz4S4b5rqRwd_R3QEAeFY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudG9paW1nLmNv/bS90aHVtYi9pbWdz/aXplLTIzNDU2LG1z/aWQtOTg0MDA1ODEs/d2lkdGgtNjAwLHJl/c2l6ZW1vZGUtNC85/ODQwMDU4MS5qcGc",
+    rating: 5,
+  },
+  {
+    id: 6,
+    name: "Sydney Sweeney",
+    subjects: ["History", "English"],
+    image:
+      "https://imgs.search.brave.com/J2kx6phJgGKzITaxKBPgHxN_lyUfAez3MunN_80jt9Q/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/aW5zdHlsZS5jb20v/dGhtYi9Wa2xsTlUt/ZFZPLTdlaElDQ2Rk/bWt5SXBuQjQ9LzE1/MDB4MC9maWx0ZXJz/Om5vX3Vwc2NhbGUo/KTptYXhfYnl0ZXMo/MTUwMDAwKTpzdHJp/cF9pY2MoKS9zeWRu/ZXktZGQ4NzNhNmQy/YmUzNDVhM2E3MzE5/MjViNjVlMzlkYTQu/anBn",
+    rating: 5,
+  },
+  {
+    id: 7,
     name: "Akash Prajapati",
     subjects: ["History", "English"],
     image:
       "https://imgs.search.brave.com/E2RbHLVsP-D_1GftENPGhs804skHLkktIckXG6KrVIQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQ0/MzQ5OTIyMy9waG90/by9oYXBweS1lbGVt/ZW50YXJ5LXRlYWNo/ZXItaW4tZnJvbnQt/b2YtaGlzLXN0dWRl/bnRzLWluLXRoZS1j/bGFzc3Jvb20uanBn/P3M9NjEyeDYxMiZ3/PTAmaz0yMCZjPXhh/aEtnbnRYak5Vbk05/eTVXQ0pfQ21hdWdN/UzNFRjB5ZV9RSmZB/MThYT3c9",
+    rating: 5,
+  },
+  {
+    id: 5,
+    name: "Chitti Parihar",
+    subjects: ["History", "English"],
+    image:
+      "https://imgs.search.brave.com/DXnbMZFTt3qPiQVBq26csQQEgyIodtenybcQs0ce9Tg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzkwLzQz/LzI0LzkwNDMyNDdi/YjYwODdkNWU3YTY0/NDIxNDUxYjkwYjRl/LmpwZw",
     rating: 5,
   },
 ];
@@ -65,10 +89,10 @@ const tutors = [
 function Hero() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
-            const slideCount = tutors.length;
+            const slideCount = tutors.length-2;
             useEffect(() => {
               const interval = setInterval(() => {
-                setCurrentIndex((prev) => (prev + 1) % slideCount);
+                setCurrentIndex((prev) => (prev +1) % slideCount);
               }, 1200);
               return () => clearInterval(interval);
             }, [slideCount]);
@@ -213,7 +237,7 @@ function Hero() {
         </div>
 
         {/* Tutors Carousel */}
-        <div className="relative w-full py-5 px-5 mt-13 my-8 mx-auto overflow-hidden shadow-xl rounded-md bg-gray-100">
+        <div className="relative w-full py-5 px-2 mt-13 my-8 mx-auto overflow-hidden  rounded-md bg-white">
           <div
             className="flex transition-transform duration-700"
             style={{
@@ -224,8 +248,8 @@ function Hero() {
             {displayTutors.map((tutor, idx) => (
               <div
                 key={idx}
-                className="min-w-[450px] max-w-[450px] 
-                            bg-[blue]/5 rounded-md shadow-xl border-1 boder-black/20 mx-2 flex flex-col items-center px-4 py-6"
+                className="min-w-[292px] max-w-[450px] 
+                            bg-[gray]/20 rounded-md shadow-xl border-1 boder-black/20 mx-7 flex flex-col items-center px-4 py-6"
               >
                 <img
                   src={tutor.image}
