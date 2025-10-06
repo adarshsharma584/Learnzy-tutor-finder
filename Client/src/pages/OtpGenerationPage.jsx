@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { SiMaildotru } from "react-icons/si";
+
+
 const OtpGenerationPage = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60);

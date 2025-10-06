@@ -13,8 +13,12 @@ import Tutions from "./pages/Tutions.jsx";
 import Profile from "./pages/Profile.jsx";
 import Layout from "./components/Layout.jsx";
 import OtpGenerationPage from "./pages/OtpGenerationPage.jsx";
+import StudentDashboard from "./pages/dashboards/StudentDashboard.jsx";
+import TuitionDashboard from "./pages/dashboards/TuitionDashboard.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 
 const router = createBrowserRouter([
   {
@@ -63,6 +67,16 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFoundPage />,
       },
+      {
+        path: "/dashboards/tutor",
+        element: <TuitionDashboard />,
+      },
+      {
+        path: "/dashboards/student",
+        element: <StudentDashboard />,
+      },
+      
+      
     ],
   },
 ]);

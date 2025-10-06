@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TutorRole from "../components/tutorRole.jsx";
+import TutorRole from "../components/TutorRole.jsx";
 
 
 function TeacherRegister() {

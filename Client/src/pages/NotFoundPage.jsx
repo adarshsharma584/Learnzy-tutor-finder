@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { TbFaceIdError } from "react-icons/tb";
+
+
 const NotFoundPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center  bg-white px-4">
+     
           <div className="flex flex-col items-center    px-10 py-16 ">
         <TbFaceIdError className="h-20 w-auto text-gray-700 mb-2" />
         <h1 className="text-7xl font-extrabold text-gray-700 mb-4">Oops !</h1>

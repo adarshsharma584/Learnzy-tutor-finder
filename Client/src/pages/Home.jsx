@@ -5,11 +5,11 @@ import Hero from '../components/Hero.jsx'
 function Home() {
   return (
     <div>
-      
-      <Hero/>
-      <Footer/>
+     
+      <Hero />
+      <Footer />
     </div>
-  )
+  );
 }
 
 export default Home
