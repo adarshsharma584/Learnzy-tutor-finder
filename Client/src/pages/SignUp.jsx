@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {useNavigate} from "react-router-dom"
 export default function SignUp() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -20,6 +22,7 @@ export default function SignUp() {
     e.preventDefault();
     // Handle form submission logic here
     console.log('Form submitted:', formData);
+    navigate('/otp');
   };
 
   return (

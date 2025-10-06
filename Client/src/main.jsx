@@ -12,6 +12,8 @@ import Contact from "./pages/Contact.jsx";
 import Tutions from "./pages/Tutions.jsx";
 import Profile from "./pages/Profile.jsx";
 import Layout from "./components/Layout.jsx";
+import OtpGenerationPage from "./pages/OtpGenerationPage.jsx";
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -26,10 +28,12 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />,
+       
       },
       {
         path: "/signin",
         element: <SignIn />,
+       
       },
       {
         path: "/become-tutor",
@@ -50,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/me",
         element: <Profile />,
+      },
+      {
+        path: "/otp",
+        element: <OtpGenerationPage />,
       },
     ],
   },
