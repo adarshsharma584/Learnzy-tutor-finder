@@ -24,7 +24,7 @@ export default function SignIn() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    navigate('/otp');
+    navigate('/verify-otp');
     setFormData("");
     console.log('Form submitted:', formData);
   };

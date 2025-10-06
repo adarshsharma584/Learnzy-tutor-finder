@@ -22,7 +22,7 @@ export default function SignUp() {
     e.preventDefault();
     // Handle form submission logic here
     console.log('Form submitted:', formData);
-    navigate('/otp');
+    navigate('/verify-otp');
   };
 
   return (

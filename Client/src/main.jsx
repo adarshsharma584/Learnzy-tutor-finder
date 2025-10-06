@@ -13,7 +13,7 @@ import Tutions from "./pages/Tutions.jsx";
 import Profile from "./pages/Profile.jsx";
 import Layout from "./components/Layout.jsx";
 import OtpGenerationPage from "./pages/OtpGenerationPage.jsx";
-
+import NotFoundPage from "./pages/NotFoundPage.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -56,8 +56,12 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/otp",
+        path: "/verify-otp",
         element: <OtpGenerationPage />,
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
       },
     ],
   },
