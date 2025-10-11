@@ -18,15 +18,15 @@ ConnectDb()
     });
 });
 
-app.use("/", (_, res) => {
-    res.send("Learnzy Server responding")
-});
-
 // import routes
 import userRoutes from "./src/routes/user.routes.js"
 
 // define routes
 app.use("/api/user", userRoutes)
 
+//==================================
+app.use("/", (_, res) => {
+    res.send("Learnzy Server responding")
+});
 
 app.use(errorHandler)
