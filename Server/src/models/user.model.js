@@ -32,6 +32,24 @@ const userSchema = new Schema({
   },
   refreshToken: {
     type: String
+  },
+
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verificationCode: {
+    type: String
+  },
+  verificationCodeExpires: {
+    type: Date
+  },
+
+  resetPasswordToken: {
+    type: String
+  },
+  resetPasswordExpires: {
+    type: Date
   }
 
 }, { timestamps: true});
