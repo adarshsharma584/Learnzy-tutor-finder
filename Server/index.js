@@ -1,8 +1,8 @@
 import express from "express";
-import { ConnectDb } from "./utils/dbConnection.js";
+import { ConnectDb } from "./src/utils/dbConnection.js";
 import CookieParser from "cookie-parser"
-import config from "./config/index.js";
-import { errorHandler } from "./middlewares/errorHandler.middleware.js";
+import config from "./src/config/index.js";
+import { errorHandler } from "./src/middlewares/errorHandler.middleware.js";
 
 const app = express ();
 const PORT = config.PORT;
@@ -18,15 +18,15 @@ ConnectDb()
     });
 });
 
-app.use("/", (_, res) => {
-    res.send("Learnzy Server responding")
-});
-
 // import routes
-import userRoutes from "./routes/user.routes.js"
+import userRoutes from "./src/routes/user.routes.js"
 
 // define routes
 app.use("/api/user", userRoutes)
 
+//==================================
+app.use("/", (_, res) => {
+    res.send("Learnzy Server responding")
+});
 
 app.use(errorHandler)

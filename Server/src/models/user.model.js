@@ -32,18 +32,36 @@ const userSchema = new Schema({
   },
   refreshToken: {
     type: String
+  },
+
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verificationCode: {
+    type: String
+  },
+  verificationCodeExpires: {
+    type: Date
+  },
+
+  resetPasswordToken: {
+    type: String
+  },
+  resetPasswordExpires: {
+    type: Date
   }
 
 }, { timestamps: true});
 
-userSchema.pre("save", async () => {
+userSchema.pre("save", async function(next) {
   if(!this.isModified("password")) return next();
   
   this.password = await bcrypt.hash(this.password, 10)
   next()
 });
 
-userSchema.methods.isPasswordCorrect = async (password) => {
+userSchema.methods.isPasswordCorrect = async function(password) {
   return await bcrypt.compare(password, this.password);
 }
 
