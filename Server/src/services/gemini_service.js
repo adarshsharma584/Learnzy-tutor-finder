@@ -33,21 +33,10 @@ async function generateResponse(prompt) {
         throw error;
     }
 }
-async function main() {
-    try {
-        const response = await generateResponse("say hello with my name as Learnzy");
-        console.log('Generated Response:', response);
-    } catch (error) {
-        console.error('Error in main:', error);
-    }
-}
+
 
 export default generateResponse;
 
-// Run the example if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-    main();
-}
 
 
-main();
+
