@@ -26,41 +26,42 @@ const tuitionSchema = new Schema(
     },
     batch: [
       {
-        type: String,
-        required: true,
-        trim: true,
-      },
-
-      startDate: {
-        type: Date,
-        required: true,
-      },
-      endDate: {
-        type: Date,
-        required: true,
-      },
-      recurringDays: [
-        {
-          type: String,
-          enum: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-          ],
-        },
-      ],
-      timeSlot: {
-        startTime: {
+        name: {
           type: String,
           required: true,
+          trim: true,
         },
-        endTime: {
-          type: String,
+        startDate: {
+          type: Date,
           required: true,
+        },
+        endDate: {
+          type: Date,
+          required: true,
+        },
+        recurringDays: [
+          {
+            type: String,
+            enum: [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ],
+          },
+        ],
+        timeSlot: {
+          startTime: {
+            type: String,
+            required: true,
+          },
+          endTime: {
+            type: String,
+            required: true,
+          },
         },
       },
     ],
@@ -112,10 +113,8 @@ const tuitionSchema = new Schema(
       },
       address: String,
     },
-
-
-
-    feedback: {
+    feedback:
+    {
       rating: {
         type: Number,
         min: 1,
@@ -127,7 +126,6 @@ const tuitionSchema = new Schema(
       },
       givenAt: Date,
     },
-
     progressReports: [
       {
         date: {
