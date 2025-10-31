@@ -4,6 +4,7 @@ import CookieParser from "cookie-parser"
 import config from "./src/config/index.js";
 import { errorHandler } from "./src/middlewares/errorHandler.middleware.js";
 
+
 const app = express ();
 const PORT = config.PORT;
 
@@ -20,10 +21,10 @@ ConnectDb()
 
 // import routes
 import userRoutes from "./src/routes/user.routes.js"
-
+import geminiRoutes from "./src/routes/gemini.route.js";
 // define routes
 app.use("/api/user", userRoutes)
-
+app.use("/api/tutor", geminiRoutes);
 //==================================
 app.use("/", (_, res) => {
     res.send("Learnzy Server responding")
