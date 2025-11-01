@@ -1,32 +1,46 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+import { login, loading, error } from "../redux/slices/authSlice.js";
+import { axiosInstance } from "../services/axiosInstance.js";
 
 export default function SignIn() {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    
-    email: '',
-    password: '',
-   
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    navigate('/verify-otp');
+    dispatch(loading(true));
+    try {
+      const response = await axiosInstance.post("/auth/login", formData);
+      dispatch(login(response.data));
+      console.log("response from signin component:",response)
+      dispatch(loading(false));
+    } catch (err) {
+      dispatch(error(err.response?.data?.message || "Something went wrong"));
+      console.log("error while signin: ", err)
+      return;
+    }
+    navigate("/verify-otp");
+
     setFormData("");
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
   return (
@@ -148,7 +162,6 @@ export default function SignIn() {
           </div>
         </div>
       </div>
-      
     </>
   );
 }

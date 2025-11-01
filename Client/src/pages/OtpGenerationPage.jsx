@@ -1,8 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import { SiMaildotru } from "react-icons/si";
-
+import { useNavigate,useLocation } from "react-router-dom";
 
 const OtpGenerationPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60);
   const [expired, setExpired] = useState(false);
@@ -50,7 +54,14 @@ const OtpGenerationPage = () => {
     const s = String(t % 60).padStart(2, "0");
     return `${m}:${s}`;
   };
-
+  const handleVerifyOtp = () => {
+    const enteredOtp = otp.join("");
+    console.log("Verifying OTP:", enteredOtp);
+    navigate(from, { replace: true });
+    // Add actual OTP verification logic here
+  };
+   
+   
   return (
     <div className="min-h-screen flex flex-col items-center   bg-gray-100 px-4 py-8 border-2">
       <SiMaildotru className="h-8 w-auto text-gray-700 " />
@@ -82,6 +93,7 @@ const OtpGenerationPage = () => {
           <button
             className="w-full py-3 mt-2 bg-sky-800 text-white rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
             disabled={otp.some((d) => d === "")}
+            onClick={ handleVerifyOtp }
           >
             Verify OTP
           </button>

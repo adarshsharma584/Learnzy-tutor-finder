@@ -1,15 +1,19 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import {useNavigate} from "react-router-dom"
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signup, loading, error } from '../redux/slices/authSlice';
+import { axiosInstance } from '../services/axiosInstance';
+
+
 export default function SignUp() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -18,8 +22,19 @@ export default function SignUp() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(loading(true));
+    try {
+      const response = await axiosInstance.post("/auth/signup", formData);
+      console.log(response);
+      dispatch(signup(response.data));
+      dispatch(loading(false));
+    } catch (err) {
+      dispatch(error(err.response?.data?.message || "Something went wrong"));
+      console.log("error", err);  
+      return;
+    }
     // Handle form submission logic here
     console.log('Form submitted:', formData);
     navigate('/verify-otp');
