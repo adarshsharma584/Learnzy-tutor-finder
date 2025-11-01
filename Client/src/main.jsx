@@ -16,9 +16,10 @@ import OtpGenerationPage from "./pages/OtpGenerationPage.jsx";
 import StudentDashboard from "./pages/dashboards/StudentDashboard.jsx";
 import TuitionDashboard from "./pages/dashboards/TuitionDashboard.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-
+import { store } from "./redux/store.js";
+import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -32,56 +33,83 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />,
-       
       },
       {
         path: "/signin",
         element: <SignIn />,
-       
       },
-      {
-        path: "/become-tutor",
-        element: <TeacherRegister />,
-      },
+
       {
         path: "/about",
         element: <About />,
       },
-      {
-        path: "/tutions",
-        element: <Tutions />,
-      },
+
       {
         path: "/contact",
         element: <Contact />,
       },
-      {
-        path: "/me",
-        element: <Profile />,
-      },
-      {
-        path: "/verify-otp",
-        element: <OtpGenerationPage />,
-      },
+
       {
         path: "*",
         element: <NotFoundPage />,
       },
       {
+        path: "/me",
+        element: (
+          <ProtectedRoute>
+            <Profile />,
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/become-tutor",
+        element: (
+          <ProtectedRoute>
+            <TeacherRegister />,
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/tutions",
+        element: (
+          <ProtectedRoute>
+            <Tutions />,
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/verify-otp",
+        element: (
+          <ProtectedRoute>
+            <OtpGenerationPage />,
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/dashboards/tutor",
-        element: <TuitionDashboard />,
+        element: (
+          <ProtectedRoute>
+            <TuitionDashboard />,
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/dashboards/student",
-        element: <StudentDashboard />,
+        element: (
+          <ProtectedRoute>
+            <StudentDashboard />,
+          </ProtectedRoute>
+        ),
       },
-      
-      
     ],
   },
 ]);
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );
