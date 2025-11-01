@@ -12,10 +12,12 @@ import {
   resetPassword,
 } from "../controllers/user.controller.js";
 
+import { upload } from "../middlewares/multer.middleware.js";
+
 const router = Router();
 
 // ========== AUTH ROUTES ==========
-router.post("/signup", registerUser);
+router.post("/signup", upload.single("profilePhoto"), registerUser);
 router.post("/verify", verifyUser);
 router.post("/login", loginUser);
 router.delete("/logout", authenticateUser, logoutUser);
@@ -26,7 +28,7 @@ router.patch("/reset-password", resetPassword);
 
 // ========== USER ROUTES (PROTECTED) ==========
 router.get("/me", authenticateUser, getCurrentUser);
-router.patch("/update", authenticateUser, updateUser);
+router.patch("/update", upload.single("profilePhoto"), authenticateUser, updateUser);
 router.delete("/delete", authenticateUser, deleteUser);
 
 export default router;

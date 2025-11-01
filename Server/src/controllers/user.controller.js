@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import { generateVerificationCode } from "../utils/helpers.js";
 import { sendVerificationEmail, SendResetPasswordInstruction } from "../services/emailService.js";
 import crypto from "crypto"
+import { uploadOnCloudinary } from  "../utils/cloudinary.js"
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -28,6 +29,7 @@ const options = {
 
 const registerUser = asyncHandler( async (req, res) => {
   const { name, email, password, phone, role } = req.body
+  const  profilePhotoPath  = req?.file?.path
 
   if(!name || !email || !password || !phone){
     throw new ApiError(400, "All field are required")
@@ -39,6 +41,8 @@ const registerUser = asyncHandler( async (req, res) => {
     throw new ApiError(409, "User with this email has already an account")
   }
 
+  const profilePhoto = await uploadOnCloudinary(profilePhotoPath)
+
   const verificationCode = generateVerificationCode();
   const verificationCodeExpires = new Date(Date.now() + 10*60*1000)
 
@@ -48,6 +52,7 @@ const registerUser = asyncHandler( async (req, res) => {
     password, 
     phone, 
     role,
+    profilePhoto: profilePhoto?.url,
     verificationCode,
     verificationCodeExpires
   })

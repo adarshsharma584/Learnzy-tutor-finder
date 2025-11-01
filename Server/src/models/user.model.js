@@ -30,6 +30,10 @@ const userSchema = new Schema({
     enum: ["student", "tutor", "parent"],
     default: "student"
   },
+  profilePhoto: {
+    type: String,
+    default: ''
+  },
   refreshToken: {
     type: String
   },
