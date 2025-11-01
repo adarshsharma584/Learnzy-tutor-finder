@@ -23,14 +23,14 @@ const teacherSchema = new Schema(
           required: true,
           trim: true,
         },
-            boards: {
-            type: [String],
-            required: true,
-            },
-            class:{
-            type: [String],
-            required: true,
-            }
+        boards: {
+          type: [String],
+          required: true,
+        },
+        class: {
+          type: [String],
+          required: true,
+        }
       },
     ],
     qualifications: [
@@ -47,15 +47,15 @@ const teacherSchema = new Schema(
         document: {
           type: String, // URL to stored document
           required: true,
-            },
-        testGrades:{
-            type:Number,
-            required: true,
-            
+        },
+        testGrades: {
+          type: Number,
+          required: true,
+
         }
       },
-        ],
-    
+    ],
+
     experience: {
       type: Number,
       required: true,
@@ -67,8 +67,8 @@ const teacherSchema = new Schema(
       trim: true,
       maxLength: 1000,
     },
-   
-   
+
+
     profilePicture: {
       type: String,
       default: "",
@@ -77,8 +77,8 @@ const teacherSchema = new Schema(
       type: Boolean,
       default: false,
     },
-   
-    
+
+
   },
   {
     timestamps: true,

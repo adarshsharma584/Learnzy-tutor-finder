@@ -19,15 +19,15 @@ const model = genAI.getGenerativeModel({
         temperature: 0.7,
         topK: 40,
         topP: 0.95,
-        maxOutputTokens: 2048,
+        maxOutputTokens: 8192,
     },
 });
 
 async function generateResponse(prompt) {
     try {
-        const result = await model.generateContent([{ text: prompt }]);
-        const response = await result.response;
-        return response.text();
+        const result = await model.generateContent(prompt);
+        const response = result.response.text();
+        return response;
     } catch (error) {
         console.error('Error generating response:', error);
         throw error;

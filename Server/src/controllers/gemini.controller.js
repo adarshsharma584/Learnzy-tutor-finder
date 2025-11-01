@@ -27,7 +27,6 @@ export const generateTestQuestions = async (req, res) => {
 
         return res.status(200).json({ rawResponse: response });
 
-       
     } catch (error) {
         console.error('Error generating test questions:', error);
         return res.status(500).json({ error: error.message || 'Unknown error', details: error.sample || null });

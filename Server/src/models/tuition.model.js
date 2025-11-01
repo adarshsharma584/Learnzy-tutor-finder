@@ -7,11 +7,12 @@ const tuitionSchema = new Schema(
       ref: "Teacher",
       required: true,
     },
-    student: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    students: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      }
+    ],
     subject: {
       name: {
         type: String,

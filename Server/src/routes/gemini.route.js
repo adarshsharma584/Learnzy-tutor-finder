@@ -1,4 +1,4 @@
-import express,{Router} from "express";
+import { Router } from "express";
 import { generateTestQuestions, compareAnswers } from '../controllers/gemini.controller.js';
 
 const router = Router();
