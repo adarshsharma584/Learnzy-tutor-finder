@@ -33,13 +33,15 @@ ConnectDb()
 });
 
 // import routes
-import userRoutes from "./src/routes/user.routes.js"
+import userRoutes from "./src/routes/user.routes.js";
 import geminiRoutes from "./src/routes/gemini.route.js";
-import tuitionRoutes  from "./src/routes/tuitions.route.js"
+import tuitionRoutes  from "./src/routes/tuitions.route.js";
+import teacherRoutes from "./src/routes/teacher.routes.js";
 // define routes
-app.use("/api/user", userRoutes)
+app.use("/api/user", userRoutes);
 app.use("/api/tutor", geminiRoutes);
-app.use("/api/tuition", tuitionRoutes)
+app.use("/api/tuition", tuitionRoutes);
+app.use("/api/teacher", teacherRoutes);
 //==================================
 app.use("/", (_, res) => {
     res.send("Learnzy Server responding")
