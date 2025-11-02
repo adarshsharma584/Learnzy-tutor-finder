@@ -8,14 +8,6 @@ const teacherSchema = new Schema(
       required: true,
       unique: true,
     },
-    fullName: {
-      type: String,
-      required: true,
-      trim: true,
-      minLength: 3,
-      maxLength: 50,
-      index: true,
-    },
     subjects: [
       {
         name: {
@@ -25,11 +17,11 @@ const teacherSchema = new Schema(
         },
         boards: {
           type: [String],
-          required: true,
+          // required: true,
         },
         class: {
           type: [String],
-          required: true,
+          // required: true,
         }
       },
     ],
@@ -46,12 +38,10 @@ const teacherSchema = new Schema(
         },
         document: {
           type: String, // URL to stored document
-          required: true,
+          // required: true,
         },
         testGrades: {
           type: Number,
-          required: true,
-
         }
       },
     ],
@@ -63,22 +53,14 @@ const teacherSchema = new Schema(
     },
     bio: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
       maxLength: 1000,
-    },
-
-
-    profilePicture: {
-      type: String,
-      default: "",
     },
     isVerified: {
       type: Boolean,
       default: false,
     },
-
-
   },
   {
     timestamps: true,
