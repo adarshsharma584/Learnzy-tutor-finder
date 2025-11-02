@@ -35,11 +35,11 @@ ConnectDb()
 // import routes
 import userRoutes from "./src/routes/user.routes.js"
 import geminiRoutes from "./src/routes/gemini.route.js";
-import tutionRoutes  from "./src/routes/tutions.route.js"
+import tuitionRoutes  from "./src/routes/tuitions.route.js"
 // define routes
 app.use("/api/user", userRoutes)
 app.use("/api/tutor", geminiRoutes);
-app.use("/api/tution", tutionRoutes)
+app.use("/api/tuition", tuitionRoutes)
 //==================================
 app.use("/", (_, res) => {
     res.send("Learnzy Server responding")

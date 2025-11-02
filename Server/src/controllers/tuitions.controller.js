@@ -11,11 +11,11 @@ const getAllTuitions = asyncHandler(async (_req, res) => {
     success: true,
     count: tuitions.length,
     data: tuitions,
-    message: "Tutions retrieved successfully"
+    message: "Tuitions retrieved successfully"
   });
 });
 
-const createTution = asyncHandler(async (req, res) => {
+const createTuition = asyncHandler(async (req, res) => {
   const { teacher, students, subject, batch, location } = req.body
 
   if (!teacher || !subject?.name || !subject?.grade || !batch?.length) {
@@ -30,7 +30,7 @@ const createTution = asyncHandler(async (req, res) => {
     location
   })
 
-  if(!tuition) throw  new ApiError(500, "Tution  not  created")
+  if(!tuition) throw  new ApiError(500, "Tuition  not  created")
 
   res.status(201).json({
     success: true,
@@ -55,6 +55,6 @@ const getTuitionById = asyncHandler(async (req, res) => {
 
 export {
   getAllTuitions,
-  createTution,
+  createTuition,
   getTuitionById
 }
