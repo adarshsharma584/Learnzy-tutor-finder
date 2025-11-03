@@ -57,7 +57,7 @@ const router = createBrowserRouter([
         path: "/me",
         element: (
           <ProtectedRoute>
-            <Profile />,
+            <Profile />
           </ProtectedRoute>
         ),
       },
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
         path: "/become-tutor",
         element: (
           <ProtectedRoute>
-            <TeacherRegister />,
+            <TeacherRegister />
           </ProtectedRoute>
         ),
       },
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         path: "/tutions",
         element: (
           <ProtectedRoute>
-            <Tutions />,
+            <Tutions />
           </ProtectedRoute>
         ),
       },
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
         path: "/verify-otp",
         element: (
           <ProtectedRoute>
-            <OtpGenerationPage />,
+            <OtpGenerationPage />
           </ProtectedRoute>
         ),
       },
@@ -90,7 +90,7 @@ const router = createBrowserRouter([
         path: "/dashboards/tutor",
         element: (
           <ProtectedRoute>
-            <TuitionDashboard />,
+            <TuitionDashboard />
           </ProtectedRoute>
         ),
       },
@@ -98,7 +98,7 @@ const router = createBrowserRouter([
         path: "/dashboards/student",
         element: (
           <ProtectedRoute>
-            <StudentDashboard />,
+            <StudentDashboard />
           </ProtectedRoute>
         ),
       },

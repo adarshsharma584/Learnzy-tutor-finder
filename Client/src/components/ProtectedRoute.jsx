@@ -10,7 +10,9 @@ function ProtectedRoute({ children }) {
         return <Navigate to="/signin" replace state={{ from: location }} />;
     
     }
-    return children;
+    return (
+        <>{children}</>
+    );
 }
 
 export default ProtectedRoute
