@@ -1,9 +1,16 @@
-import React from 'react'
+
+import { useNavigate } from 'react-router-dom';
 
 
-function TutorCard({ image, name, address, subjects,classes,board,medium}) {
+function TutorCard({ id,image, name, address, subjects, classes, board, medium }) {
+  const navigate = useNavigate();
+
+  const handleOpenTuitionCard = () => {
+    navigate(`/tutions/${id}`);
+  };
+    
   return (
-    <div className="card card-side bg-white text-black/100 shadow-xl w-[550px] h-[220px] my-5 mx-5">
+    <div className="card card-side bg-white text-black/100 shadow-xl w-[550px] h-[220px] my-5 mx-5 hover:border-gray-300 hover:border-12 transition-all duration-100 hover:h-[240px]" >
   <figure>
     <img
       src={image}
@@ -22,7 +29,7 @@ function TutorCard({ image, name, address, subjects,classes,board,medium}) {
     <p>{address}</p>
     <p>⭐⭐⭐⭐⭐</p>
     <div className="card-actions justify-start">
-      <button className="btn btn-primary">Visit</button>
+      <button className="btn btn-primary" onClick={handleOpenTuitionCard}>Visit</button>
       <button className="btn btn-primary">Check Location</button>
     </div>
   </div>
