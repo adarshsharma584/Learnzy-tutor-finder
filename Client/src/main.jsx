@@ -20,7 +20,7 @@ import { store } from "./redux/store.js";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-
+import MapView from "./pages/MapView.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -74,6 +74,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Tutions />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path:"/tutions-location",
+        element: (
+          <ProtectedRoute>
+            <MapView />
           </ProtectedRoute>
         ),
       },

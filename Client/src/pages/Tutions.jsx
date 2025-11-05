@@ -1,8 +1,18 @@
 import React from 'react'
 import TutorCard from '../components/TutorCard'
 import SearchInput from '../components/SearchInput'
+import {fetchAllTuitions} from './../redux/thunk/tuitionThunk';
+import {useDispatch} from 'react-redux';
+import { useEffect } from 'react';
 
 function Tutions() {
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+   const tuitions = dispatch(fetchAllTuitions());
+   console.log(tuitions);
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col justify-center items-center">
       <h1 className="text-gray-600 mt-16 mb-2 mx-auto w-full text-center text-3xl font-bold font-[verdana]">Find the Perfect Tutor for Your Learning Journey</h1>

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { loginUser, signupUser, fetchUserProfile, logoutUser } from '../thunk/userThunk.js';
 const initialState = {
     user: null,
-    isAuthenticated: false,
+    isAuthenticated: true,
     isLoading: false,
     token:localStorage.getItem('token') || null,
     isError: false,
