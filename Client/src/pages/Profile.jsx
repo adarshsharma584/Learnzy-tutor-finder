@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-
+import { fetchUserProfile } from "../redux/thunk/userThunk";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 function Profile() {
   const [activeTab, setActiveTab] = useState("profile");
+  const dispatch = useDispatch();
 
   const user = {
     name: "Adarsh Sharma",
@@ -17,6 +21,13 @@ function Profile() {
     },
     address: "New Delhi, India",
   };
+ const fetchedUser = useSelector((state) => state.auth.user);
+  console.log(fetchedUser);
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, [dispatch]);
+
+
 
   return (
     <div className="bg-gray-50 min-h-screen">

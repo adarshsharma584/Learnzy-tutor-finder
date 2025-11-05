@@ -1,43 +1,40 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { signup, loading, error } from '../redux/slices/authSlice';
-import { axiosInstance } from '../services/axiosInstance';
-
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signupUser } from "../redux/thunk/userThunk";
 
 export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loading(true));
+
     try {
-      const response = await axiosInstance.post("/auth/signup", formData);
-      console.log(response);
-      dispatch(signup(response.data));
-      dispatch(loading(false));
+      dispatch(signupUser(formData));
+      alert("Signup successful! Please verify your email.");
+
+      setFormData("");
+      console.log("Form submitted:", formData);
+      navigate("/verify-otp");
     } catch (err) {
-      dispatch(error(err.response?.data?.message || "Something went wrong"));
-      console.log("error", err);  
+      alert(err.response?.data?.message || "Something went wrong");
+      console.log("error", err);
       return;
     }
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
-    navigate('/verify-otp');
   };
 
   return (
@@ -46,14 +43,16 @@ export default function SignUp() {
         {/* Header */}
         <div className="bg-[#403D39] p-6 text-center">
           <h1 className="text-2xl font-bold text-white">Create Your Account</h1>
-         
         </div>
 
         {/* Form */}
         <div className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="fullName"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Full Name
               </label>
               <input
@@ -63,14 +62,17 @@ export default function SignUp() {
                 required
                 value={formData.fullName}
                 onChange={handleChange}
-                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                 //   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="Enter your full name"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Email Address
               </label>
               <input
@@ -80,14 +82,17 @@ export default function SignUp() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg" 
-                //  
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                //
                 placeholder="Enter your email"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Password
               </label>
               <input
@@ -98,13 +103,16 @@ export default function SignUp() {
                 value={formData.password}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                //  
+                //
                 placeholder="Create a password"
               />
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Confirm Password
               </label>
               <input
@@ -133,7 +141,9 @@ export default function SignUp() {
           {/* Divider */}
           <div className="relative flex items-center mt-8">
             <div className="flex-grow border-t border-gray-300"></div>
-            <span className="flex-shrink mx-4 text-gray-600 text-sm">or continue with</span>
+            <span className="flex-shrink mx-4 text-gray-600 text-sm">
+              or continue with
+            </span>
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
 
@@ -143,7 +153,12 @@ export default function SignUp() {
               type="button"
               className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+              >
                 <path
                   fill="#4285F4"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -168,8 +183,11 @@ export default function SignUp() {
           {/* Login Link */}
           <div className="text-center mt-6">
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
-              <Link to="/signin" className="text-indigo-600 hover:text-indigo-800 font-medium">
+              Already have an account?{" "}
+              <Link
+                to="/signin"
+                className="text-indigo-600 hover:text-indigo-800 font-medium"
+              >
                 Log in
               </Link>
             </p>
