@@ -33,7 +33,7 @@ function MapView() {
   const [route, setRoute] = useState([]);
   const [selectedTuition, setSelectedTuition] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [userAddress, setUserAddress] = useState(null);
   useEffect(() => {
     // helper functions scoped inside effect
     const generateNearbyLocation = (baseLat, baseLng, radius = 0.02) => {
@@ -41,6 +41,11 @@ function MapView() {
       return [baseLat + randomOffset(), baseLng + randomOffset()];
     };
 
+    
+      
+
+
+   
     const createNearbyTuitions = (baseLat, baseLng) => {
       const data = [
         {
@@ -109,7 +114,26 @@ function MapView() {
       { enableHighAccuracy: true, timeout: 10000 }
     );
   }, []);
+async function getAddress(lat, lon) {
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+  );
+  const data = await response.json();
+  console.log("Fetched address data:", data);
+  console.log("Address:", data.display_name);
+  return data.display_name;
+}
 
+useEffect(() => {
+  const fetchAddress = async () => {
+    if (userLocation) {
+      const address = await getAddress(userLocation[0], userLocation[1]);
+      setUserAddress(address);
+      console.log("User Address:", address);
+    }
+  };
+  fetchAddress();
+}, [userLocation]);
   const getRoute = async (lat, lng) => {
     try {
       if (!userLocation) return;
@@ -150,8 +174,7 @@ function MapView() {
         </h1>
         {userLocation ? (
           <p className="text-gray-600">
-            Your Location: {userLocation[0].toFixed(4)},{" "}
-            {userLocation[1].toFixed(4)}
+            Your Location: {userAddress}
           </p>
         ) : (
           <p className="text-gray-600">Locating you...</p>
