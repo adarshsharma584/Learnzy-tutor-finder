@@ -26,7 +26,7 @@ const tutors = [
   },
   {
     id: 2,
-    name: "Chanchal Sharma",
+    name: "Chanchal Bhatia",
     subjects: ["Chemistry", "Biology"],
     image:
       "https://imgs.search.brave.com/5dpjiwN6Pgt4GXtC0Yzk4MYRHxKcUQIVcCXi7KTRyUo/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvNTIx/MjMxNy9wZXhlbHMt/cGhvdG8tNTIxMjMx/Ny5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA",

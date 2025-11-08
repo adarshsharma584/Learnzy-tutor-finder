@@ -16,6 +16,7 @@ import OtpGenerationPage from "./pages/OtpGenerationPage.jsx";
 import StudentDashboard from "./pages/dashboards/StudentDashboard.jsx";
 import TuitionDashboard from "./pages/dashboards/TuitionDashboard.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import TestQuestions from "./pages/TestQuestions.jsx";
 import { store } from "./redux/store.js";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -94,6 +95,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <MapView />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/test-questions",
+        element: (
+          <ProtectedRoute>
+            <TestQuestions />
           </ProtectedRoute>
         ),
       },

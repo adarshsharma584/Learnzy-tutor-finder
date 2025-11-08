@@ -138,7 +138,7 @@ function About() {
                 src="https://avatars.githubusercontent.com/u/102425332?v=4" 
                 alt="Adarsh Sharma"
               />
-              <h3 className="text-xl font-semibold text-gray-900">Chanchal Sharma</h3>
+              <h3 className="text-xl font-semibold text-gray-900">Chanchal Bhatia</h3>
               <p className="text-indigo-600 font-medium">Project Lead</p>
               <p className="text-gray-600 mt-2 text-sm">
                 Passionate about bridging education with technology.
