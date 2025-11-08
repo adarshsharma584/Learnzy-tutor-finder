@@ -186,6 +186,9 @@ const QUESTIONS = [
 function TestQuestions() {
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState({});
+  const [timeLeft, setTimeLeft] = useState((30*60)+(60)); // 30 minutes in seconds
+  const [timerStarted, setTimerStarted] = useState(false);
+  const [timeExpired, setTimeExpired] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [autosubmitted, setAutosubmitted] = useState(false);
 
@@ -194,6 +197,28 @@ function TestQuestions() {
     const timer = setTimeout(() => setLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
+
+  // Timer logic
+  useEffect(() => {
+    if (!loading && !submitted && !timerStarted) {
+      setTimerStarted(true);
+    }
+
+    if (timerStarted && timeLeft > 0 && !submitted) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            setTimeExpired(true);
+            setSubmitted(true);
+            setAutosubmitted(true);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [loading, timerStarted, timeLeft, submitted]);
 
   // Tab switch detection
   useEffect(() => {
@@ -217,6 +242,13 @@ function TestQuestions() {
     setSubmitted(true);
   };
 
+  // Format time as mm:ss
+  const formatTime = (seconds) => {
+    return `${Math.floor(seconds / 60)}:${(seconds % 60)
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
   // Score calculation (optional)
   const score = Object.entries(answers).reduce((acc, [qid, idx]) => {
     const q = QUESTIONS.find((q) => q.id === Number(qid));
@@ -226,15 +258,26 @@ function TestQuestions() {
   return (
     <div className="min-h-screen bg-[#FFFCF2] flex flex-col items-center py-10 px-4">
       <div className=" w-full bg-white rounded-xl shadow-lg p-8 border border-gray-200">
-        <h1 className="text-3xl font-bold text-sky-800 mb-4">
+        <h1 className="text-3xl font-bold text-sky-800 mb-4 flex justify-between items-center">
           Tutor Test Questions
+          {!loading && !submitted && (
+            <div className="text-2xl font-mono bg-sky-100 px-4 py-2 rounded-lg">
+              {formatTime(timeLeft)}
+            </div>
+          )}
         </h1>
         <div className="bg-yellow-200 border-l-4 border-yellow-500 p-4 rounded mb-6">
           <strong className="text-yellow-800">Note:</strong>
-          <span className="text-gray-700 ml-2">
-            No switching of tabs allowed, otherwise it will autosubmit your
-            test.
-          </span>
+          <div className="text-gray-700 ml-2">
+           1. Extra one minute is given to read the instructions carefully.
+          </div>
+          <div className="text-gray-700 ml-2">
+            2. No switching of tabs allowed, otherwise it will autosubmit your
+            test. 
+          </div>
+          <div className="text-gray-700 ml-2">
+           3. Test duration: 30 minutes. So please manage your time accordingly. Test will auto submit after time elapses.
+          </div>
         </div>
         {loading ? (
           <div className="flex flex-col items-center justify-center py-16">
@@ -246,11 +289,13 @@ function TestQuestions() {
             <h2 className="text-2xl font-bold text-green-700 mb-2">
               Test Submitted
             </h2>
-            {autosubmitted ? (
+            {autosubmitted && (
               <p className="text-red-600 font-semibold">
-                Test was autosubmitted due to tab switch.
+                {timeExpired
+                  ? "Test was autosubmitted due to time expiration."
+                  : "Test was autosubmitted due to tab switch."}
               </p>
-            ) : null}
+            )}
             <p className="text-gray-700 mt-2">
               Your Score:{" "}
               <span className="font-bold text-sky-800">
@@ -266,7 +311,7 @@ function TestQuestions() {
                 {QUESTIONS.map((q, idx) => (
                   <div
                     key={q.id}
-                    className="bg-gray-50 rounded-lg p-4  min-w-[48%] max-w-[45%]"
+                    className="bg-gray-50 rounded-lg shadow-sm p-4  min-w-[48%] max-w-[45%]"
                   >
                     {/* <div className="text-sm text-gray-500 mb-1">
                       Question {idx + 1} of {QUESTIONS.length}
