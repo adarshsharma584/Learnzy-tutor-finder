@@ -1,5 +1,24 @@
+import { ZodError } from "zod";
+
+const formatZodErrors = (zodError) => {
+  return zodError.issues.map((issue) => ({
+    field: issue.path.join("."),
+    message: issue.message
+  }));
+};
+
 const errorHandler = (err, _req, res, _next) => {
   try {
+
+    if (err instanceof ZodError) {
+      return res.status(400).json({
+        statusCode: 400,
+        success: false,
+        message: "Validation failed",
+        errors: formatZodErrors(err)
+      });
+    }
+
     const statusCode = err.statusCode || 500
     const message = err.message || "Internal server error"
   
