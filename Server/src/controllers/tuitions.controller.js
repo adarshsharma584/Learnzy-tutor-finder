@@ -5,8 +5,8 @@ import Batch from "../models/batch.model.js"
 
 const getAllTuitions = asyncHandler(async (_req, res) => {
   const tuitions = await Tuition.find()
-    // .populate("teacher", "name email")
-    .populate("students", "name email");
+    .populate("teacher", "name email")
+    // .populate("students", "name email");
 
   res.status(200).json({
     success: true,

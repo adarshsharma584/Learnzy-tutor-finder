@@ -4,7 +4,7 @@ import { getAllTuitions, getTuitionById, createTuition } from "../controllers/tu
 
 const  router = Router();
 
-router.get("/all", getAllTuitions)
+router.get("", getAllTuitions)
 router.get("/:id", getTuitionById)
 router.post("/create", createTuition)
 
