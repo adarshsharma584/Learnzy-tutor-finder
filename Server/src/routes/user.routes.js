@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
+import { validate } from "../middlewares/validation.middleware.js";
+import { registerSchema, loginSchema, verifySchema, updateUserSchema } from "../schemas/user.schema.js";
 import {
   registerUser,
   verifyUser,
@@ -17,9 +19,9 @@ import { upload } from "../middlewares/multer.middleware.js";
 const router = Router();
 
 // ========== AUTH ROUTES ==========
-router.post("/signup", upload.single("profilePhoto"), registerUser);
-router.post("/verify", verifyUser);
-router.post("/login", loginUser);
+router.post("/register", upload.single("profilePhoto"), validate(registerSchema), registerUser);
+router.post("/verify", validate(verifySchema), verifyUser);
+router.post("/login", validate(loginSchema), loginUser);
 router.delete("/logout", authenticateUser, logoutUser);
 
 // ========== PASSWORD ROUTES ==========
@@ -28,7 +30,7 @@ router.patch("/reset-password", resetPassword);
 
 // ========== USER ROUTES (PROTECTED) ==========
 router.get("/me", authenticateUser, getCurrentUser);
-router.patch("/update", upload.single("profilePhoto"), authenticateUser, updateUser);
+router.patch("/update", upload.single("profilePhoto"), authenticateUser, validate(updateUserSchema), updateUser);
 router.delete("/delete", authenticateUser, deleteUser);
 
 export default router;

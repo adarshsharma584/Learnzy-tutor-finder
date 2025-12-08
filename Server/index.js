@@ -15,7 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(CookieParser());
 app.use(helmet());
-app.use(cors());
+app.use(cors(
+    {
+        origin: process.env.CORS_ORIGIN,
+        credentials: true
+    }
+))
 app.use(morgan("dev"));
 app.use(
     rateLimit({
@@ -40,7 +45,7 @@ import teacherRoutes from "./src/routes/teacher.routes.js";
 // define routes
 app.use("/api/user", userRoutes);
 app.use("/api/tutor", geminiRoutes);
-app.use("/api/tuition", tuitionRoutes);
+app.use("/api/tuitions", tuitionRoutes);
 app.use("/api/teacher", teacherRoutes);
 //==================================
 app.use("/", (_, res) => {
