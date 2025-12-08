@@ -12,7 +12,7 @@ function Navbar() {
               {" "}
               <img
                 src="../../public/book_logo.png"
-                alt="logo"
+                alt=""
                 className="h-[36px] w-auto"
               />
               Learn-zy
