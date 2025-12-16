@@ -7,10 +7,17 @@ import helmet from "helmet";
 import cors from "cors";    
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-
+import { generateQuestions } from "./src/services/testQuestionsGeneration.js";
 const app = express ();
 const PORT = config.PORT;
 
+generateQuestions("Data Strucutre", "B.Tech", "RGPV").then(() => {
+    console.log("Sample questions generated");
+}).catch((err) => {
+    console.error("Error generating sample questions:", err);
+});
+
+// middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(CookieParser());
@@ -39,12 +46,12 @@ ConnectDb()
 
 // import routes
 import userRoutes from "./src/routes/user.routes.js";
-import geminiRoutes from "./src/routes/gemini.route.js";
+// import geminiRoutes from "./src/routes/gemini.route.js";
 import tuitionRoutes  from "./src/routes/tuitions.route.js";
 import teacherRoutes from "./src/routes/teacher.routes.js";
 // define routes
 app.use("/api/user", userRoutes);
-app.use("/api/tutor", geminiRoutes);
+// app.use("/api/tutor", geminiRoutes);
 app.use("/api/tuitions", tuitionRoutes);
 app.use("/api/teacher", teacherRoutes);
 //==================================

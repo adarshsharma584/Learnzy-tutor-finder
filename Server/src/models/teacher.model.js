@@ -36,10 +36,10 @@ const teacherSchema = new Schema(
           type: Number,
           required: true,
         },
-        document: {
+        documents:[ {
           type: String, // URL to stored document
           // required: true,
-        },
+        }],
         testGrades: {
           type: Number,
         }

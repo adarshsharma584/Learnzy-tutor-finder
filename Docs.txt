@@ -1,0 +1,33 @@
+📌 ER DIAGRAM – LEARNZY PROJECT
+🧠 Core Entities Identified
+
+Main entities(Schemas):
+
+1.User
+2.Parent
+3.Student
+4.Tutor
+5.TuitionCenter
+6.Batch
+7.Enrollment
+8.Attendance
+9.Test
+10.TestResult
+11.Review
+12.Payment
+
+ER Diagram : 
+
+User
+ │
+ ├── Parent ──── Student ──── Enrollment ──── Batch ──── Test ──── TestResult
+ │                   │                          │
+ │                   │                          ├── Attendance
+ │                   │                          └── Payment
+ │
+ ├── Tutor ──── TuitionCenter ──── Batch
+ │                   │
+ │                   └── Review
+ │
+ └── Admin
+

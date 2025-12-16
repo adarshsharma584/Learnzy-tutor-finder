@@ -1,9 +1,9 @@
-import { Router } from "express";
-import { generateTestQuestions, compareAnswers } from '../controllers/gemini.controller.js';
+// import { Router } from "express";
+// import { generateTestQuestions, compareAnswers } from '../controllers/gemini.controller.js';
 
-const router = Router();
+// const router = Router();
 
-router.post('/test', generateTestQuestions);
-router.post('/compare-answers', compareAnswers);
+// router.post('/test', generateTestQuestions);
+// router.post('/compare-answers', compareAnswers);
 
-export default router;
+// export default router;

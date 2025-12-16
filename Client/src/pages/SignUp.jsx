@@ -7,7 +7,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -50,25 +50,25 @@ export default function SignUp() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
-                htmlFor="fullName"
+                htmlFor="name"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Full Name
               </label>
               <input
-                id="fullName"
-                name="fullName"
+                id="name"
+                name="name"
                 type="text"
                 required
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 text-black rounded-lg"
                 //   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="Enter your full name"
               />
             </div>
 
-            <div>
+            <div className="text-black">
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -82,7 +82,7 @@ export default function SignUp() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 text-black rounded-lg"
                 //
                 placeholder="Enter your email"
               />
@@ -102,7 +102,7 @@ export default function SignUp() {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 text-black rounded-lg"
                 //
                 placeholder="Create a password"
               />
@@ -122,7 +122,7 @@ export default function SignUp() {
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 text-black rounded-lg"
                 //  focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="Confirm your password"
               />
