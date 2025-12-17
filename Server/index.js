@@ -11,11 +11,11 @@ import { generateQuestions } from "./src/services/testQuestionsGeneration.js";
 const app = express ();
 const PORT = config.PORT;
 
-generateQuestions("Data Strucutre", "B.Tech", "RGPV").then(() => {
-    console.log("Sample questions generated");
-}).catch((err) => {
-    console.error("Error generating sample questions:", err);
-});
+// generateQuestions("Data Strucutre", "B.Tech", "RGPV").then(() => {
+//     console.log("Sample questions generated");
+// }).catch((err) => {
+//     console.error("Error generating sample questions:", err);
+// });
 
 // middlewares
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use(CookieParser());
 app.use(helmet());
 app.use(cors(
     {
-        origin: process.env.CORS_ORIGIN,
+        origin: process.env.CORS_ORIGIN || "http://localhost:5173",
         credentials: true
     }
 ))

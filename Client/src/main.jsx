@@ -110,9 +110,9 @@ const router = createBrowserRouter([
       {
         path: "/verify-otp",
         element: (
-          <ProtectedRoute>
+          
             <OtpGenerationPage />
-          </ProtectedRoute>
+         
         ),
       },
       {

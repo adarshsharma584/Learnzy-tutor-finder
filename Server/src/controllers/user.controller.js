@@ -44,6 +44,7 @@ const registerUser = asyncHandler( async (req, res) => {
   const profilePhoto = await uploadOnCloudinary(profilePhotoPath)
 
   const verificationCode = generateVerificationCode();
+  
   const verificationCodeExpires = new Date(Date.now() + 10*60*1000)
 
   const user = await User.create({

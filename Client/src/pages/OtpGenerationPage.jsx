@@ -1,12 +1,14 @@
 import React, { useRef, useState, useEffect } from "react";
 import { SiMaildotru } from "react-icons/si";
 import { useNavigate,useLocation } from "react-router-dom";
+import { verifyOtp } from "../redux/thunk/userThunk";
+import { useDispatch } from "react-redux";
 
 const OtpGenerationPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-
+  const [email,setEmail] = useState("")
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60);
   const [expired, setExpired] = useState(false);
@@ -54,12 +56,22 @@ const OtpGenerationPage = () => {
     const s = String(t % 60).padStart(2, "0");
     return `${m}:${s}`;
   };
-  const handleVerifyOtp = () => {
-    const enteredOtp = otp.join("");
-    console.log("Verifying OTP:", enteredOtp);
-    navigate(from, { replace: true });
-    // Add actual OTP verification logic here
+  const dispatch = useDispatch();
+  let otpData = {
+    email,
+    verificationCode: otp.join(""),
   };
+  
+  const handleVerifyOtp = () => {
+    const response = dispatch(verifyOtp({ ...otpData }));
+    setOtp(["", "", "", "", "", ""]);
+    setEmail("");
+    setTimer(60);
+    setExpired(false);
+    console.log("Verifying OTP:", response);
+    navigate(from, { replace: true });
+  };
+    
    
    
   return (
@@ -73,6 +85,8 @@ const OtpGenerationPage = () => {
         <p className="text-gray-600 mb-8 text-center">
           We have sent a 6-digit verification code to your email.
         </p>
+
+        <input type="email" name="email" id="email" value={email}  placeholder="Enter Your E-mail"  className="mb-4 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-800" onChange={(e) => setEmail(e.target.value)}/>
         <div className="flex gap-3 mb-6">
           {otp.map((digit, idx) => (
             <input

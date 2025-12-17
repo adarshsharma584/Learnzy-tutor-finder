@@ -3,13 +3,12 @@ import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/thunk/userThunk.js";
-
 
 export default function SignIn() {
   const dispatch = useDispatch();
-  ((state) => state.auth);
+  (state) => state.auth;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -26,22 +25,23 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-     
-      dispatch(loginUser(formData));
-      console.log("response from signin component")
-      navigate("/verify-otp");
+      await dispatch(loginUser(formData)).unwrap();
+      console.log("response from signin component");
+      navigate("/dashboard"); // or wherever after login
 
       setFormData("");
       console.log("Form submitted:", formData);
     } catch (err) {
-      
-      alert (err.response?.data?.message || "Something went wrong");
-      console.log("error while signin: ", err)
+      console.log("error while signin: ", err);
+      if (err === "Please verify your email before logging in.") {
+        navigate("/verify-otp");
+      } else {
+        alert(err || "Something went wrong");
+      }
       return;
     }
-    
   };
 
   return (

@@ -11,6 +11,8 @@ export default function SignUp() {
     email: "",
     password: "",
     confirmPassword: "",
+    phone: "",
+    role: "student", // default role
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,15 +25,20 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
     try {
-      dispatch(signupUser(formData));
-      alert("Signup successful! Please verify your email.");
+      await dispatch(signupUser(formData)).unwrap();
+      //alert("Signup successful! Please verify your email.");
 
       setFormData("");
       console.log("Form submitted:", formData);
       navigate("/verify-otp");
     } catch (err) {
-      alert(err.response?.data?.message || "Something went wrong");
+      alert(err || "Something went wrong");
       console.log("error", err);
       return;
     }
@@ -60,7 +67,7 @@ export default function SignUp() {
                 name="name"
                 type="text"
                 required
-                value={formData.fullName}
+                value={formData.name}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 text-black rounded-lg"
                 //   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
@@ -86,6 +93,45 @@ export default function SignUp() {
                 //
                 placeholder="Enter your email"
               />
+            </div>
+
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Phone Number
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 text-black rounded-lg"
+                placeholder="Enter your phone number"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="role"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Role
+              </label>
+              <select
+                id="role"
+                name="role"
+                required
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 text-black rounded-lg"
+              >
+                <option value="student">Student</option>
+                <option value="tutor">Tutor</option>
+              </select>
             </div>
 
             <div>

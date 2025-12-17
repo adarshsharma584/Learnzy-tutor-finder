@@ -23,7 +23,7 @@ const renderTemplate = function (template, context) {
 
 const templates = {
   verification: {
-    subject: "Verify your LearnZy account",
+    subject: "Verify your Learnzy account",
     html: loadTemplate("verification/verification.html.ejs"),
     text: loadTemplate("verification/verification.text.ejs")
   },
