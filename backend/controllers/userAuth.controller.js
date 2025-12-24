@@ -37,7 +37,8 @@ const registerUser = async (req, res) => {
         };
 
         const userAddress = await Address.create(address);
-
+        console.log(userAddress);
+        
         const user = await User.create({
             fullName,
             email,
@@ -70,14 +71,15 @@ const registerUser = async (req, res) => {
 
             secure: true,
         });
-
-        const createdUser = await User.find({
+ 
+        const populatedUser = await User.find({
             email,
-        });
+        }).select("-password -refreshToken").populate('address');
+        
 
         return res.status(201).json({
             message: "User registered successfully.",
-            user: createdUser,
+            user: populatedUser,
             accessToken,
             refreshToken,
         });

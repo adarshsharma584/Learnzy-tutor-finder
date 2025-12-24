@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signupUser } from "../redux/thunk/userThunk";
@@ -15,17 +15,53 @@ export default function SignUp() {
     phone: "",
     role: "student", 
     address: {
-        houseNumber: '99',
-        streetNumber: '2',
-        area: 'vijay nagar',
-      city: 'indore',
-        district: 'indore',
-        pinCode: '456010',
-        state: 'Madhya pradesh',
-        country: 'India',
+        houseNumber: '',
+        streetNumber: '',
+        area: '',
+        city: '',
+        district: '',
+        pinCode: '',
+        state: '',
+        country: '',
         location: { latitude: 0, longitude: 0 }
     }
   });
+
+  const handleUserLocation = async () => {
+
+    if (navigator.geolocation) {
+      console.log("navigator: ", navigator.geolocation.getCurrentPosition)
+      navigator.geolocation.getCurrentPosition(async function (position) {
+        console.log("user position: ", position);
+        let lat = position.coords.latitude;
+        let long = position.coords.longitude;
+        
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${long}`
+        );
+        const data = await response.json();
+          
+        console.log("response from open street map: ", data);
+        formData.address.area = data.address.county;
+        formData.address.city = data.address.city_district;
+        formData.address.pinCode = data.address.postcode;
+        formData.address.district = data.address.city_district;
+        formData.address.state = data.address.state;
+        formData.address.country = data.address.country;
+        formData.address.location.latitude = lat;
+        formData.address.location.longitude = long;
+      })
+    }else {
+      console.log('Geolocation is not supported by this browser.');
+    }
+  }
+
+  useEffect(() => {
+    handleUserLocation()
+    console.log("formData: ", formData)
+  }, []);
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -43,17 +79,6 @@ export default function SignUp() {
     }
 
     try {
-      if(!navigator.geolocation){
-        console.log('Geolocation is not supported by this browser.');
-      } else {
-        console.log("navigator: ",navigator.geolocation.getCurrentPosition)
-        navigator.geolocation.getCurrentPosition(function (position) {
-          console.log("user position: ",position);
-          formData.address.location.latitude=position.coords.latitude;
-          formData.address.location.longitude=position.coords.longitude;
-        })
-      }
-
       console.log("location: ",formData.address.location)
       console.log("Form data before submission:", formData);
       console.log("Dispatching signup action...");
