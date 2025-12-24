@@ -1,5 +1,9 @@
 import { User } from "../models/user.model.js";
 import { sendVerificationEmail,sendWelcomeEmail } from "../services/email.service.js";
+import {Address} from "../models/address.model.js";
+
+
+
 const generateAccessAndRefreshToken = async (user) => {
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
@@ -17,9 +21,9 @@ const generateVeificationCode = () => {
 const registerUser = async (req, res) => {
 
     try {
-        const { fullName, email, password, phone } = req.body;
-
-        if (!fullName || !email || !password) {
+        const { fullName, email, password, phone,address } = req.body;
+        console.log(req.body);
+        if (!fullName || !email || !password ||!phone ||!address) {
             return res.status(400).json({
                 message: "All fields are required"
             });
@@ -32,11 +36,14 @@ const registerUser = async (req, res) => {
             });
         };
 
+        const userAddress = await Address.create(address);
+
         const user = await User.create({
             fullName,
             email,
             password,
             phone,
+            address: userAddress._id,
         });
 
         const otp = generateVeificationCode();

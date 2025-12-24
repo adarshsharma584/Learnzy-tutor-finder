@@ -7,7 +7,7 @@ const userSchema = new Schema(
     {
         fullName: {
             type: String,
-            required: [true, "fullName is reuired"],
+            required: [true, "fullName is required"],
 
             trim: true,
 
@@ -21,7 +21,9 @@ const userSchema = new Schema(
             index: true,
         },
         phone: {
-            type: String,
+            type: Number,
+            required: [true, "phone number is required"],
+            unique: [true, "phone number should be unique"],
             trim: true,
         },
         password: {

@@ -6,13 +6,25 @@ import { signupUser } from "../redux/thunk/userThunk";
 export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
     phone: "",
-    role: "student", // default role
+    role: "student", 
+    address: {
+        houseNumber: '99',
+        streetNumber: '2',
+        area: 'vijay nagar',
+      city: 'indore',
+        district: 'indore',
+        pinCode: '456010',
+        state: 'Madhya pradesh',
+        country: 'India',
+        location: { latitude: 0, longitude: 0 }
+    }
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,6 +43,18 @@ export default function SignUp() {
     }
 
     try {
+      if(!navigator.geolocation){
+        console.log('Geolocation is not supported by this browser.');
+      } else {
+        console.log("navigator: ",navigator.geolocation.getCurrentPosition)
+        navigator.geolocation.getCurrentPosition(function (position) {
+          console.log("user position: ",position);
+          formData.address.location.latitude=position.coords.latitude;
+          formData.address.location.longitude=position.coords.longitude;
+        })
+      }
+
+      console.log("location: ",formData.address.location)
       console.log("Form data before submission:", formData);
       console.log("Dispatching signup action...");
       await dispatch(signupUser(formData)).unwrap();

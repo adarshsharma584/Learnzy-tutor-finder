@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { fetchUserProfile } from "../redux/thunk/userThunk";
+// import { fetchUserProfile } from "../redux/thunk/userThunk";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+// import { useDispatch } from "react-redux";
+// import { useEffect } from "react";
 function Profile() {
   const [activeTab, setActiveTab] = useState("profile");
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const user = {
     name: "Adarsh Sharma",
@@ -22,10 +22,10 @@ function Profile() {
     address: "New Delhi, India",
   };
  const fetchedUser = useSelector((state) => state.auth.user);
-  console.log(fetchedUser);
-  useEffect(() => {
-    dispatch(fetchUserProfile());
-  }, [dispatch]);
+  console.log("fetchedUser",fetchedUser);
+  // useEffect(() => {
+  //   dispatch(fetchUserProfile());
+  // }, [dispatch]);
 
 
 
@@ -36,15 +36,15 @@ function Profile() {
         <div className="bg-white rounded-2xl  shadow-xl p-8 flex flex-col md:flex-row items-center  gap-8">
           <div className="avatar">
             <div className="w-32 h-32 rounded-full ring ring-sky-800 ring-offset-base-100 ring-offset-2">
-              <img src={user.avatar} alt={`${user.name}'s avatar`} />
+              <img src={user.avatar} alt={`${fetchedUser.fullName}'s avatar`} />
             </div>
           </div>
 
           <div className="flex-grow text-center md:text-left">
-            <h1 className="text-4xl font-bold text-gray-600">{user.name}</h1>
-            <p className="text-lg text-gray-500 mt-1">{user.email}</p>
-            <p className="text-md text-gray-600 mt-4 max-w-2xl">{user.bio}</p>
-            <div className="mt-4 flex justify-center md:justify-start items-center gap-6">
+            <h1 className="text-4xl font-bold text-gray-600">{fetchedUser.fullName}</h1>
+            <p className="text-lg text-gray-500 mt-1">{fetchedUser.email}</p>
+            {/* <p className="text-md text-gray-600 mt-4 max-w-2xl">{user.bio}</p> */}
+            {/* <div className="mt-4 flex justify-center md:justify-start items-center gap-6">
               <div className="text-center">
                 <p className="text-2xl font-bold text-sky-800">
                   {user.stats.courses}
@@ -63,7 +63,7 @@ function Profile() {
                 </p>
                 <p className="text-sm text-gray-500">Rating</p>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="flex-shrink-0">
             <button className="px-6 py-3 bg-sky-800 text-white rounded-lg font-semibold text-md hover:bg-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl">
@@ -127,7 +127,7 @@ function Profile() {
                     <p className="text-sm font-medium text-gray-500">
                       Joined On
                     </p>
-                    <p className="text-md text-gray-800">{user.joinDate}</p>
+                    <p className="text-md text-gray-800">{fetchedUser.createdAt}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-500">
