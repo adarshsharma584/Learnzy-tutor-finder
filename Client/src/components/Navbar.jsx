@@ -1,7 +1,16 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {logoutUser} from "../redux/thunk/userThunk.js";
 // import {book_logo}  from "../../public/book_logo.png";
 function Navbar() {
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    console.log("Dispatching logout action...");
+     await dispatch(logoutUser());
+    console.log("Logout clicked ");
+  };
   return (
     <>
       <header className="bg-white/50 backdrop-blur-md sticky">
@@ -86,7 +95,7 @@ function Navbar() {
                   <Link to="/signup">Sign up</Link>
                 </li>
                 <li className="bg-white hover:bg-gray-50 rounded-lg p-1 text-gray-600 shadow-sm border-1 border-gray-100">
-                  <button>Log out</button>
+                  <button onClick={handleLogout}>Log out</button>
                 </li>
               </ul>
             </div>

@@ -8,7 +8,7 @@ const OtpGenerationPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const [email,setEmail] = useState("")
+  
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60);
   const [expired, setExpired] = useState(false);
@@ -45,7 +45,7 @@ const OtpGenerationPage = () => {
 
   const handleGenerateNewOtp = () => {
     setOtp(["", "", "", "", "", ""]);
-    setTimer(60);
+    setTimer(300);
     setExpired(false);
     if (inputs.current[0]) inputs.current[0].focus();
     // Optionally, trigger backend OTP resend here
@@ -57,19 +57,23 @@ const OtpGenerationPage = () => {
     return `${m}:${s}`;
   };
   const dispatch = useDispatch();
-  let otpData = {
-    email,
-    verificationCode: otp.join(""),
-  };
-  
-  const handleVerifyOtp = () => {
-    const response = dispatch(verifyOtp({ ...otpData }));
+
+  const handleVerifyOtp = async () => {
+    const otpData = otp.join("");
+    console.log("otp: ", otpData);
+    const response = await dispatch(verifyOtp({ otp: otpData })).unwrap();
+
     setOtp(["", "", "", "", "", ""]);
-    setEmail("");
-    setTimer(60);
+
+    setTimer(300);
     setExpired(false);
-    console.log("Verifying OTP:", response);
-    navigate(from, { replace: true });
+    console.log("Verifying OTP:", response.message);
+    if (response.message === "Email Verified.") {
+      navigate(from, { replace: true });
+      alert(response.message);
+    } else {
+      alert("Invalid OTP. Please try again.");
+    }
   };
     
    
@@ -86,7 +90,7 @@ const OtpGenerationPage = () => {
           We have sent a 6-digit verification code to your email.
         </p>
 
-        <input type="email" name="email" id="email" value={email}  placeholder="Enter Your E-mail"  className="mb-4 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-800" onChange={(e) => setEmail(e.target.value)}/>
+       
         <div className="flex gap-3 mb-6">
           {otp.map((digit, idx) => (
             <input

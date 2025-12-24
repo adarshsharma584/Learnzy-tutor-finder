@@ -7,7 +7,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -31,6 +31,8 @@ export default function SignUp() {
     }
 
     try {
+      console.log("Form data before submission:", formData);
+      console.log("Dispatching signup action...");
       await dispatch(signupUser(formData)).unwrap();
       //alert("Signup successful! Please verify your email.");
 
@@ -57,14 +59,14 @@ export default function SignUp() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
-                htmlFor="name"
+                htmlFor="fullName"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Full Name
               </label>
               <input
-                id="name"
-                name="name"
+                id="fullName"
+                name="fullName"
                 type="text"
                 required
                 value={formData.name}
