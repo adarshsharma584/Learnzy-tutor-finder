@@ -62,14 +62,14 @@ const registerUser = async (req, res) => {
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: true,
-
+            secure: true,      
+            sameSite: "none"
         });
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-
-            secure: true,
+            secure: true,      
+            sameSite: "none"
         });
  
         const populatedUser = await User.find({
@@ -119,14 +119,15 @@ const loginUser = async (req, res) => {
             await generateAccessAndRefreshToken(user);
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: true,
+            secure: true,      // Must be true for HTTPS (Vercel uses HTTPS)
+            sameSite: "none"
 
         });
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-
-            secure: true,
+            secure: true,      // Must be true for HTTPS (Vercel uses HTTPS)
+            sameSite: "none"
         });
 
         return res.status(201).json({
@@ -162,7 +163,8 @@ const logoutUser = async (req, res) => {
 
         res.clearCookie("accessToken", {
             httpOnly: true,
-            secure: true,
+            secure: true,     
+            sameSite: "none"
         });
         res.clearCookie("refreshToken", {
             httpOnly: true,
