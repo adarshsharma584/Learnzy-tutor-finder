@@ -3,15 +3,13 @@ const serializeAddress = (address) => {
 
   return {
     id: address._id,
-    houseNumber: address.houseNumber,
-    streetNumber: address.streetNumber,
-    area: address.area,
+    streetAddress: address.streetAddress,
     city: address.city,
-    district: address.district,
     pinCode: address.pinCode,
     state: address.state,
     country: address.country,
-    location: address.location,
+    lat: address.lat,
+    lng: address.lng,
   };
 };
 

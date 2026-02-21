@@ -1,14 +1,14 @@
-import mongoose,{Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const batchSchema = new Schema({
     tuitionId: {
         type: Schema.Types.ObjectId,
-        ref:"TuitionCenter",
+        ref: "TuitionCenter",
         required: true,
     },
-    name:{
-        type:String,
-        required:true,
+    name: {
+        type: String,
+        required: true,
     },
     time: {
         type: String,
@@ -36,17 +36,14 @@ const batchSchema = new Schema({
     },
     subjects: [{
         type: String,
-        required:true,
+        required: true,
     }],
     fee: {
-        type:Number,
+        type: Number,
         default: 0,
-        required:true,
+        required: true,
 
     }
-
-
-
 
 },
     {

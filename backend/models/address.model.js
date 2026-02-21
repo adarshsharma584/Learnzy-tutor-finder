@@ -1,52 +1,46 @@
-import mongoose,{Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const addressSchema = new Schema(
-    {
-        houseNumber: {
-            type: String,
-        },
-        streetNumber: {
-            type: Number,
-        },
-        area: {
-            type: String,
-        },
-        city: {
-            type: String,
-            
-        },
-        district: {
-            type: String,
-        },
-        pinCode: {
-            type: String,
-        },
-        state: {
-            type: String,
-        },
-        country: {
-            type: String,
-        },
-           
-        location: {
-            latitude: {
-                type: Number,
-                default: 0,
-                required: true,
-            },
-            longitude: {
-                type: Number,
-                default: 0,
-                required: true,
-            }
-        },
+  {
+    streetAddress: {
+      type: String,
+      trim: true,
+      default: "",
     },
-    {
-        timestamps: true,
-    }
+    city: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    pinCode: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    state: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    country: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    lat: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
 export const Address = mongoose.model("Address", addressSchema);
-            
-
-           

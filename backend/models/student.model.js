@@ -1,44 +1,38 @@
 import mongoose, { Schema } from "mongoose";
 
-const studentSchema = new Schema({
-    fullName: {
-        type: String,
-        required: true,
-        trim: true,
-        index: true,
+const studentSchema = new Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      unique: true,
+      index: true,
     },
     schoolName: {
-        type: String,
+      type: String,
+      trim: true,
+      default: "",
     },
-        
     enrollmentNumber: {
-        type: Number,
-        required: true,
-        default: 0,
+      type: String,
+      trim: true,
+      default: "",
     },
     currentClass: {
-        type: String,
+      type: String,
+      trim: true,
+      default: "",
     },
     previousClass: {
-        type: String,
+      type: String,
+      trim: true,
+      default: "",
     },
-        
-    parents: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Parent",
-        }
-    ],
-    batches: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Batch",
-        }
-    ],
-
-        
-}, {
+  },
+  {
     timestamps: true,
-});
+  }
+);
 
 export const Student = mongoose.model("Student", studentSchema);

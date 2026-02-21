@@ -20,13 +20,23 @@ const generateAccessAndRefreshToken = async (user) => {
 const generateVerificationCode = () =>
   Math.floor(100000 + Math.random() * 900000).toString();
 
+const normalizeAddressPayload = (address = {}) => ({
+  streetAddress: address.streetAddress || address.houseNumber || "",
+  city: address.city || "",
+  state: address.state || "",
+  country: address.country || "",
+  pinCode: address.pinCode || "",
+  lat: Number(address.lat ?? address.location?.latitude ?? 0),
+  lng: Number(address.lng ?? address.long ?? address.location?.longitude ?? 0),
+});
+
 const registerUser = asyncHandler(async (req, res) => {
   const { fullName, email, password, phone, address, role } = req.body;
 
   const existedUser = await User.findOne({ email });
   if (existedUser) throw new AppError("User already exists", 409);
 
-  const userAddress = await Address.create(address);
+  const userAddress = await Address.create(normalizeAddressPayload(address));
 
   const user = await User.create({
     fullName,

@@ -30,22 +30,22 @@ const tuitionCenterSchema = new Schema(
         subjects: [
             {
                 type: String,
-                required:true,
+                required: true,
             }
         ],
         boards: [
             {
                 type: String,
-                
+
             }
         ],
         medium: {
-            type:String,
+            type: String,
         },
         mode: {
             type: String,
             enum: ["individual", "institue"],
-            default:"individual",
+            default: "individual",
         },
         batches: [
             {
@@ -62,13 +62,11 @@ const tuitionCenterSchema = new Schema(
             type: Number,
             default: 0,
         },
-        
+
     }, {
-        timestamps:true,
-    }
+    timestamps: true,
+}
 
 );
 
-export const TuitionCenter = mongoose.model("TuitionCenter",tuitionCenterSchema)
-
-
+export const TuitionCenter = mongoose.model("TuitionCenter", tuitionCenterSchema)
