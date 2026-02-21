@@ -1,34 +1,32 @@
  import {Batch} from "../models/batch.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendSuccess } from "../utils/response.js";
+import { serializeBatch } from "../serializers/batch.serializer.js";
 
-const createBatch = async (req, res) => {
-    try {
-        const { name, subjects, teachersId, time, fee, totalSeats } = req.body;
-        const { tuitionId } = req.params;
-       
-        if (!name || !subjects || !teachersId || !time || !fee || !totalSeats) {
-            return res.status(400).json({ message: "All fields are required" });
-        };
-        if(!tuitionId){
-            return res.status(400).json({ message: "Tuition Center ID is required" });
-        };
+const createBatch = asyncHandler(async (req, res) => {
+  const { name, subjects, teachersId, time, fee, totalSeats } = req.body;
+  const { tuitionId } = req.params;
 
-        const newBatch = await Batch.create({
-            tuitionId,
-            name,
-            subjects,
-            teachersId,  
-            time,
-            fee,
-            totalSeats,
-        });
-  
-        const populatedBatch = await Batch.findById(newBatch._id).populate('tuitionId').populate('teachersId');
-       
-        return res.status(201).json({ message: "Batch created successfully", batch: populatedBatch });
-    } catch (error) {
-         console.log("Error in creating batch:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
-};
+  const newBatch = await Batch.create({
+    tuitionId,
+    name,
+    subjects,
+    teachersId,
+    time,
+    fee,
+    totalSeats,
+    availableSeats: totalSeats,
+  });
+
+  const populatedBatch = await Batch.findById(newBatch._id)
+    .populate("tuitionId")
+    .populate("teachersId");
+
+  return sendSuccess(res, {
+    statusCode: 201,
+    message: "Batch created successfully",
+    data: { batch: serializeBatch(populatedBatch) },
+  });
+});
 
 export {createBatch};

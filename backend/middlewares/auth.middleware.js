@@ -1,38 +1,18 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
+import { AppError } from "../utils/appError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { extractAccessToken } from "../utils/token.js";
 
-export const verifyJWT = async (req, res, next) => {
-  try {
-   
-    const token =
-      req.cookies?.accessToken ||
-      req.header("Authorization")?.replace("Bearer ", "");
+export const verifyJWT = asyncHandler(async (req, _res, next) => {
+  const token = extractAccessToken(req);
+  if (!token) throw new AppError("Unauthorized user", 401);
 
-    
-    if (!token || token === "undefined") {
-      return res.status(401).json({
-        message: "Unauthorized user",
-      });
-    }
+  const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  const user = await User.findById(decodedToken?.id).select("-password -refreshToken");
 
-    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  if (!user) throw new AppError("User not found", 401);
 
-    // You sign tokens with { id: ... }, so use decodedToken.id
-    const user = await User.findById(decodedToken?.id).select(
-      "-password -refreshToken"
-    );
-
-    if (!user) {
-      return res.status(401).json({
-        message: "User not found",
-      });
-    }
-
-    req.user = user;
-    next();
-  } catch (err) {
-    return res.status(401).json({
-      message: "Invalid or expired token",
-    });
-  }
-};
+  req.user = user;
+  next();
+});

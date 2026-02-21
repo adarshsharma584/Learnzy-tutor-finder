@@ -1,36 +1,39 @@
 import { TuitionCenter } from '../models/tuitionCenter.model.js';
+import { AppError } from "../utils/appError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendSuccess } from "../utils/response.js";
+import { serializeTuitionCenter } from "../serializers/tuition.serializer.js";
 
-const registerTuitionCenter = async (req, res) => {
-    const { name, teachers, address, subjects, boards, medium, mode } = req.body;
-    const userId = req.user._id;
-    try {
-        if (!name || !address || !subjects || !boards || !medium || !mode) {
-            return res.status(400).json({ message: "All fields are required" });
-        };
+const registerTuitionCenter = asyncHandler(async (req, res) => {
+  const { name, teachers, address, subjects, boards, medium, mode } = req.body;
+  const userId = req.user._id;
 
-        const existedTuitionCenter = await TuitionCenter.findOne({ name: name.trim() });
-        if (existedTuitionCenter) {
-            return res.status(409).json({ message: "Tuition Center with this name already exists" });
-        };
+  const existedTuitionCenter = await TuitionCenter.findOne({ name: name.trim() });
+  if (existedTuitionCenter) {
+    throw new AppError("Tuition Center with this name already exists", 409);
+  }
 
-        const newTuitionCenter = await TuitionCenter.create({
-            name,
-            owner: userId,
-            address,
-            subjects,
-            boards,
-            medium,
-            mode,
-        });
+  const newTuitionCenter = await TuitionCenter.create({
+    name,
+    owner: userId,
+    teachers,
+    address,
+    subjects,
+    boards,
+    medium,
+    mode,
+  });
 
-        const populatedTuitionCenter = await TuitionCenter.findById(newTuitionCenter._id).populate('owner');
-        console.log(populatedTuitionCenter);
-        return res.status(201).json({ message: "Tuition Center registered successfully", tuitionCenter: populatedTuitionCenter });
+  const populatedTuitionCenter = await TuitionCenter.findById(newTuitionCenter._id)
+    .populate("owner")
+    .populate("teachers")
+    .populate("address");
 
-    } catch (error) {
-        console.log("Error in registering tuition center:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
-};
+  return sendSuccess(res, {
+    statusCode: 201,
+    message: "Tuition Center registered successfully",
+    data: { tuitionCenter: serializeTuitionCenter(populatedTuitionCenter) },
+  });
+});
 
 export { registerTuitionCenter };

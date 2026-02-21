@@ -1,34 +1,21 @@
 import { User } from "../models/user.model.js";
+import { AppError } from "../utils/appError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendSuccess } from "../utils/response.js";
+import { serializeUser } from "../serializers/user.serializer.js";
 
+const userProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+    .select("-password -refreshToken")
+    .populate("address");
 
-const userProfile = async (req, res) => {
-    try {
-        const id = req.user._id;
+  if (!user) throw new AppError("Unauthorized user", 401);
 
-        
-        const user = await User.findById(id).select(
-            "-password -refreshToken"
-        );
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "User profile fetched successfully",
+    data: { user: serializeUser(user) },
+  });
+});
 
-        if (!user) {
-            res.status(400).json({
-                message:"Unauthorized user",
-            })
-        }
-
-        return res.status(200).json({
-            message: "user profile fetched successfully",
-            user,
-        });
-
-    } catch (error) {
-
-        console.log("error while fetching user profile: ", error);
-        return res.status(500).json({
-            message:"Something went wrong while fetching user profile!",
-        })
-    }
-}
-
-
-export {userProfile}
+export { userProfile };

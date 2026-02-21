@@ -1,38 +1,35 @@
 import { Teacher } from "../models/teacher.model.js";
+import { User } from "../models/user.model.js";
+import { AppError } from "../utils/appError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendSuccess } from "../utils/response.js";
+import { serializeTeacher } from "../serializers/teacher.serializer.js";
 
-const registerTeacher = async (req, res) => {
-    try {
-        const { subjects, experience, currentStatus, isQualified } = req.body;
-        const userId = req.user._id;
+const registerTeacher = asyncHandler(async (req, res) => {
+  const { subjects, experience, currentStatus, isQualified } = req.body;
+  const userId = req.user._id;
 
-        if (!subjects || !experience || !currentStatus || !isQualified) {
-            return res.status(400).json({ message: "All fields are required" });
-        };
+  const existedTeacher = await Teacher.findOne({ userId });
+  if (existedTeacher) {
+    throw new AppError("Teacher profile already exists", 409);
+  }
 
-        const existedTeacher = await Teacher.findOne({ user: userId });
-        if (existedTeacher) {
-            return res.status(409).json({ message: "Teacher profile already exists" });
-        };
+  const newTeacher = await Teacher.create({
+    userId,
+    subjects,
+    experience,
+    currentStatus,
+    isQualified,
+  });
 
-        const newTeacher = await Teacher.create({
-            userId,
-            subjects,
-            experience,
-            currentStatus,
-            isQualified,
-        });
-        newTeacher.userId?.role === "tutor";
-        await newTeacher.userId.save();
+  await User.findByIdAndUpdate(userId, { $set: { role: "tutor" } }, { new: true });
 
-        const populatedTeacher = await Teacher.findById(newTeacher._id).populate('userId');
-            console.log(populatedTeacher);
-        return res.status(201).json({ message: "Teacher profile created successfully", teacher:populatedTeacher });
+  const populatedTeacher = await Teacher.findById(newTeacher._id).populate("userId");
+  return sendSuccess(res, {
+    statusCode: 201,
+    message: "Teacher profile created successfully",
+    data: { teacher: serializeTeacher(populatedTeacher) },
+  });
+});
 
-
-
-    } catch (error) {
-        console.log("Error in registering teacher:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
-};
 export { registerTeacher };

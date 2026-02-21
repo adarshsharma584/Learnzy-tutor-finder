@@ -21,7 +21,7 @@ const userSchema = new Schema(
             index: true,
         },
         phone: {
-            type: Number,
+            type: String,
             required: [true, "phone number is required"],
             unique: [true, "phone number should be unique"],
             trim: true,
@@ -96,7 +96,7 @@ userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             id: this.id,
-            emial: this.email,
+            email: this.email,
         },
         process.env.REFRESH_TOKEN_SECRET,
         {

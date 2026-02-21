@@ -1,229 +1,133 @@
 import { User } from "../models/user.model.js";
-import { sendVerificationEmail,sendWelcomeEmail } from "../services/email.service.js";
-import {Address} from "../models/address.model.js";
-
-
+import { sendVerificationEmail, sendWelcomeEmail } from "../services/email.service.js";
+import { Address } from "../models/address.model.js";
+import { AppError } from "../utils/appError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendSuccess } from "../utils/response.js";
+import { clearAuthCookies, setAuthCookies } from "../utils/cookie.js";
+import { serializeUser } from "../serializers/user.serializer.js";
 
 const generateAccessAndRefreshToken = async (user) => {
-    const accessToken = await user.generateAccessToken();
-    const refreshToken = await user.generateRefreshToken();
-    user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
+  const accessToken = await user.generateAccessToken();
+  const refreshToken = await user.generateRefreshToken();
 
-    return { accessToken, refreshToken };
+  user.refreshToken = refreshToken;
+  await user.save({ validateBeforeSave: false });
+
+  return { accessToken, refreshToken };
 };
 
-const generateVeificationCode = () => {
-    const verificationToken = Math.floor(100000 + Math.random() * 900000).toString()
-    return verificationToken;
-};
+const generateVerificationCode = () =>
+  Math.floor(100000 + Math.random() * 900000).toString();
 
-const registerUser = async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
+  const { fullName, email, password, phone, address, role } = req.body;
 
-    try {
-        const { fullName, email, password, phone,address } = req.body;
-        console.log(req.body);
-        if (!fullName || !email || !password ||!phone ||!address) {
-            return res.status(400).json({
-                message: "All fields are required"
-            });
-        };
+  const existedUser = await User.findOne({ email });
+  if (existedUser) throw new AppError("User already exists", 409);
 
-        const existedUser = await User.findOne({ email });
-        if (existedUser) {
-            return res.status(400).json({
-                message: "user already exist",
-            });
-        };
+  const userAddress = await Address.create(address);
 
-        const userAddress = await Address.create(address);
-        console.log(userAddress);
-        
-        const user = await User.create({
-            fullName,
-            email,
-            password,
-            phone,
-            address: userAddress._id,
-        });
+  const user = await User.create({
+    fullName,
+    email,
+    password,
+    phone,
+    role,
+    address: userAddress._id,
+  });
 
-        const otp = generateVeificationCode();
-        await sendVerificationEmail(user.email, otp);
-        user.verificationCode = otp;
-        user.verificationCodeExpiry = Date.now() + 24 * 60 * 60 * 1000
-        await user.save();
+  const otp = generateVerificationCode();
+  user.verificationCode = otp;
+  user.verificationCodeExpiry = Date.now() + 24 * 60 * 60 * 1000;
+  await user.save({ validateBeforeSave: false });
 
-        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
-            user
-        );
+  await sendVerificationEmail(user.email, otp);
 
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user);
+  setAuthCookies(res, accessToken, refreshToken);
 
+  const populatedUser = await User.findById(user._id)
+    .select("-password -refreshToken")
+    .populate("address");
 
+  return sendSuccess(res, {
+    statusCode: 201,
+    message: "User registered successfully.",
+    data: {
+      user: serializeUser(populatedUser),
+    },
+    extras: { accessToken, refreshToken },
+  });
+});
 
-        res.cookie("accessToken", accessToken, {
-            httpOnly: true,
-            secure: true,      
-            sameSite: "none"
-        });
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: true,      
-            sameSite: "none"
-        });
- 
-        const populatedUser = await User.find({
-            email,
-        }).select("-password -refreshToken").populate('address');
-        
+  const user = await User.findOne({ email });
+  if (!user) throw new AppError("User not found", 404);
 
-        return res.status(201).json({
-            message: "User registered successfully.",
-            user: populatedUser,
-            accessToken,
-            refreshToken,
-        });
+  const isValidPassword = await user.comparePassword(password);
+  if (!isValidPassword) throw new AppError("Invalid username or password", 400);
 
-    } catch (error) {
-        console.log("error in user register: ", error);
-        return res.status(500).json("something went wrong while user registration!");
-    }
+  if (!user.isVerified) {
+    throw new AppError("Please verify your email before logging in.", 403);
+  }
 
-};
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user);
+  setAuthCookies(res, accessToken, refreshToken);
 
-const loginUser = async (req, res) => {
-    try {
-        const { email, password } = req.body;
+  const safeUser = await User.findById(user._id).select("-password -refreshToken").populate("address");
 
-        if (!email || !password) {
-            return res.status(400).json({
-                message: "All fields are required",
-            });
-        };
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "User logged in successfully.",
+    data: {
+      user: serializeUser(safeUser),
+    },
+    extras: { accessToken, refreshToken },
+  });
+});
 
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({
-                message: "user not found",
-            })
-        };
+const logoutUser = asyncHandler(async (req, res) => {
+  await User.findByIdAndUpdate(
+    req.user._id,
+    { $set: { refreshToken: "" } },
+    { new: true }
+  );
 
-        const isValidPassword = await user.comparePassword(password);
-        if (!isValidPassword) {
-            return res.status(400).json({
-                message: "Invalid username or password",
-            });
-        };
+  clearAuthCookies(res);
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "User logged out successfully.",
+  });
+});
 
-        const { accessToken, refreshToken } =
-            await generateAccessAndRefreshToken(user);
-        res.cookie("accessToken", accessToken, {
-            httpOnly: true,
-            secure: true,      // Must be true for HTTPS (Vercel uses HTTPS)
-            sameSite: "none"
+const verifyOTP = asyncHandler(async (req, res) => {
+  const { otp } = req.body;
+  const user = await User.findById(req.user._id).select("-password -refreshToken");
 
-        });
+  if (!user) throw new AppError("User not found", 404);
+  if (!user.verificationCode || !user.verificationCodeExpiry) {
+    throw new AppError("Verification code not found", 400);
+  }
+  if (user.verificationCode !== `${otp}`) throw new AppError("OTP does not match", 400);
+  if (user.verificationCodeExpiry < Date.now()) {
+    throw new AppError("OTP expired. Please request a new code.", 400);
+  }
 
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: true,      // Must be true for HTTPS (Vercel uses HTTPS)
-            sameSite: "none"
-        });
+  user.isVerified = true;
+  user.verificationCode = undefined;
+  user.verificationCodeExpiry = undefined;
+  await user.save({ validateBeforeSave: false });
 
-        return res.status(201).json({
-            message: "user logged in successfully.",
-            user,
-            accessToken,
-            refreshToken,
-        });
-    } catch (error) {
-        console.log("error in user login: ", error);
-        return res.status(500).json({
-            message: "Something went wrong while logging user",
-        });
-    }
+  await sendWelcomeEmail(user.email, user.fullName);
 
-};
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "Email Verified.",
+    data: { user: serializeUser(user) },
+  });
+});
 
-const logoutUser = async (req, res) => {
-    try {
-
-        const userId = req.user._id;
-
-        const existedUser = await User.findByIdAndUpdate(
-            userId,
-            {
-                refreshToken: "",
-
-            },
-            {
-                new: true,
-            }
-        );
-
-        res.clearCookie("accessToken", {
-            httpOnly: true,
-            secure: true,     
-            sameSite: "none"
-        });
-        res.clearCookie("refreshToken", {
-            httpOnly: true,
-            secure: true,
-        });
-
-        return res.status(201).json({
-            message: "user logged out successfully.",
-        });
-    } catch (error) {
-        console.log("error in loggging out user: ", error);
-        return res.status(500).json({
-            message: "Something went wrong while logging out user!",
-        });
-    }
-}
-
-const verifyOTP = async (req, res) => {
-    try {
-        const { otp } = req.body;
-        const id = req.user._id;
-        console.log("otp:",otp);
-
-
-        if (!otp) {
-            return res.status(400).json({
-                message: "otp code is missing",
-            })
-        };
-
-        const user = await User.findOne(id).select("-password -refreshToken");
-        console.log("user: ", user);
-        if (!(user.verificationCode === `${otp}`)) {
-            console.log("user verication code: ",user.verificationCode);
-            return res.status(400).json({
-                message:"otp does not match",
-            })
-        };
-
-        user.isVerified = true;
-        user.verificationCode = undefined;
-        user.verificationCodeExpiry = undefined;
-        await user.save();
-        
-        await sendWelcomeEmail(user.email, user.fullName)
-        res.status(201).json({
-            message: "Email Verified.",
-            user,
-        });
-
-    } catch (error) {
-        console.log("error while verifying email: ", error);
-        return res.status(500).json({
-            message: "something went wrong while verifying otp",
-        })
-    }
-}
-
-
-
-
-export { registerUser, loginUser, logoutUser,verifyOTP };
+export { registerUser, loginUser, logoutUser, verifyOTP };

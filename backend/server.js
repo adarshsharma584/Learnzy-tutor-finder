@@ -1,11 +1,13 @@
-import dotenv from "dotenv";
-dotenv.config();
-  
 import express from "express";
+import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+import cors from "cors";
 import { dbConnect } from "./utils/dbConnection.js";
-import cors from "cors"
+import { errorHandler, notFoundHandler } from "./middlewares/error.middleware.js";
+import { sendSuccess } from "./utils/response.js";
+
+dotenv.config();
 
 const app = express();
 dbConnect();
@@ -14,15 +16,20 @@ dbConnect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(helmet());
 app.use(cors({
     origin: process.env.FRONTEND_ORIGIN,
     credentials: true,
     optionsSuccessStatus: 200
 }
-))
+));
+
 app.get("/", (_,res) => {
-    res.send("Welcome to Learnzy Backend");
-})
+    return sendSuccess(res, {
+      statusCode: 200,
+      message: "Welcome to Learnzy Backend",
+    });
+});
 
 // routes 
 import userAuthRouter from "./routes/userAuth.route.js";
@@ -37,6 +44,8 @@ app.use("/api/v1/teacher", teacherRouter);
 app.use("/api/v1/auth", userAuthRouter);
 app.use("/api/v1/user/", userRouter);
 
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 
 app.listen(process.env.PORT, () => {
