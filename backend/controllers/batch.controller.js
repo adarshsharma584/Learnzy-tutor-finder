@@ -1,4 +1,4 @@
- import {Batch} from "../models/batch.model.js";
+import { Batch } from "../models/batch.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendSuccess } from "../utils/response.js";
 import { serializeBatch } from "../serializers/batch.serializer.js";
@@ -29,4 +29,4 @@ const createBatch = asyncHandler(async (req, res) => {
   });
 });
 
-export {createBatch};
+export { createBatch };

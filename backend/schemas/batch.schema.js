@@ -1,8 +1,4 @@
-import {
-  isMongoObjectId,
-  isNonEmptyString,
-  toTrimmedString,
-} from "./common.schema.js";
+import { isMongoObjectId, isNonEmptyString, toTrimmedString } from "./common.schema.js";
 
 const validateCreateBatchBody = (payload = {}) => {
   const errors = [];

@@ -1,9 +1,7 @@
 const serializeTuitionCenter = (tuitionCenterDoc) => {
   if (!tuitionCenterDoc) return null;
 
-  const tuitionCenter = tuitionCenterDoc.toObject
-    ? tuitionCenterDoc.toObject()
-    : tuitionCenterDoc;
+  const tuitionCenter = tuitionCenterDoc.toObject ? tuitionCenterDoc.toObject() : tuitionCenterDoc;
 
   return {
     id: tuitionCenter._id,

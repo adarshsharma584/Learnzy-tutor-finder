@@ -17,8 +17,7 @@ const generateAccessAndRefreshToken = async (user) => {
   return { accessToken, refreshToken };
 };
 
-const generateVerificationCode = () =>
-  Math.floor(100000 + Math.random() * 900000).toString();
+const generateVerificationCode = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 const normalizeAddressPayload = (address = {}) => ({
   streetAddress: address.streetAddress || address.houseNumber || "",
@@ -87,7 +86,9 @@ const loginUser = asyncHandler(async (req, res) => {
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user);
   setAuthCookies(res, accessToken, refreshToken);
 
-  const safeUser = await User.findById(user._id).select("-password -refreshToken").populate("address");
+  const safeUser = await User.findById(user._id)
+    .select("-password -refreshToken")
+    .populate("address");
 
   return sendSuccess(res, {
     statusCode: 200,
@@ -100,11 +101,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  await User.findByIdAndUpdate(
-    req.user._id,
-    { $set: { refreshToken: "" } },
-    { new: true }
-  );
+  await User.findByIdAndUpdate(req.user._id, { $set: { refreshToken: "" } }, { new: true });
 
   clearAuthCookies(res);
   return sendSuccess(res, {

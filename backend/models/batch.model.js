@@ -1,54 +1,59 @@
 import mongoose, { Schema } from "mongoose";
 
-const batchSchema = new Schema({
+const batchSchema = new Schema(
+  {
     tuitionId: {
-        type: Schema.Types.ObjectId,
-        ref: "TuitionCenter",
-        required: true,
+      type: Schema.Types.ObjectId,
+      ref: "TuitionCenter",
+      required: true,
     },
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     time: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
-    Students: [{
+    Students: [
+      {
         type: Schema.Types.ObjectId,
         ref: "Student",
-    }],
-    teachersId: [{
+      },
+    ],
+    teachersId: [
+      {
         type: Schema.Types.ObjectId,
         ref: "Teacher",
-    }],
+      },
+    ],
     totalSeats: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
     bookedSeats: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
     availableSeats: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
-    subjects: [{
+    subjects: [
+      {
         type: String,
         required: true,
-    }],
+      },
+    ],
     fee: {
-        type: Number,
-        default: 0,
-        required: true,
-
-    }
-
-},
-    {
-        timestamps: true,
-    }
+      type: Number,
+      default: 0,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
 export const Batch = mongoose.model("Batch", batchSchema);

@@ -1,12 +1,6 @@
 const sendSuccess = (
   res,
-  {
-    statusCode = 200,
-    message = "Success",
-    data = null,
-    meta = null,
-    extras = {},
-  } = {}
+  { statusCode = 200, message = "Success", data = null, meta = null, extras = {} } = {}
 ) => {
   const payload = {
     success: true,

@@ -29,7 +29,9 @@ const registerStudent = async (req, res) => {
 
     await User.findByIdAndUpdate(userId, { $set: { role: "student" } }, { new: true });
 
-    return res.status(201).json({ message: "Student registered successfully", student: newStudent });
+    return res
+      .status(201)
+      .json({ message: "Student registered successfully", student: newStudent });
   } catch (error) {
     return res.status(500).json({ message: "Failed to register student", error: error.message });
   }

@@ -1,7 +1,4 @@
-import {
-  isNonEmptyString,
-  toTrimmedString,
-} from "./common.schema.js";
+import { isNonEmptyString, toTrimmedString } from "./common.schema.js";
 
 const validateRegisterTeacherBody = (payload = {}) => {
   const errors = [];

@@ -1,5 +1,10 @@
-import {Router} from "express";
-import { loginUser, logoutUser, registerUser, verifyOTP } from "../controllers/userAuth.controller.js";
+import { Router } from "express";
+import {
+  loginUser,
+  logoutUser,
+  registerUser,
+  verifyOTP,
+} from "../controllers/userAuth.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { validateBody } from "../middlewares/validate.middleware.js";
 import {

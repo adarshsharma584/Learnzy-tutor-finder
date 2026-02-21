@@ -1,4 +1,4 @@
-import { TuitionCenter } from '../models/tuitionCenter.model.js';
+import { TuitionCenter } from "../models/tuitionCenter.model.js";
 import { AppError } from "../utils/appError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendSuccess } from "../utils/response.js";

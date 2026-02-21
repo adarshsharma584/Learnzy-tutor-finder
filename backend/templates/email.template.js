@@ -77,9 +77,6 @@ export const Verification_Email_Template = `
   </html>
 `;
 
-
-
-
 export const Welcome_Email_Template = `
   <!DOCTYPE html>
   <html lang="en">
@@ -170,4 +167,4 @@ export const Welcome_Email_Template = `
       </div>
   </body>
   </html>
-`
+`;
