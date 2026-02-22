@@ -29,8 +29,6 @@ const serializeUser = (userDoc) => {
       user.address && typeof user.address === "object" && user.address._id
         ? serializeAddress(user.address)
         : user.address || null,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
   };
 };
 

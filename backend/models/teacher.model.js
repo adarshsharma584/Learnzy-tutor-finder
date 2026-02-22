@@ -9,12 +9,6 @@ const teacherSchema = new Schema(
       unique: true,
       index: true,
     },
-    certificates: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
     subjects: [
       {
         type: String,

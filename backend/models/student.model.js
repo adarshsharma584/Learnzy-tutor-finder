@@ -24,7 +24,12 @@ const studentSchema = new Schema(
       trim: true,
       default: "",
     },
-    previousClass: {
+    board: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    medium: {
       type: String,
       trim: true,
       default: "",

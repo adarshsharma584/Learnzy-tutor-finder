@@ -7,7 +7,6 @@ const serializeTeacher = (teacherDoc) => {
   return {
     id: teacher._id,
     user: teacher.userId?.email ? serializeUser(teacher.userId) : teacher.userId,
-    certificates: teacher.certificates,
     subjects: teacher.subjects,
     experience: teacher.experience,
     currentStatus: teacher.currentStatus,
