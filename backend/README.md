@@ -19,6 +19,8 @@ REFRESH_TOKEN_SECRET=replace_with_refresh_token_secret
 REFRESH_TOKEN_EXPIRY=7d
 
 FRONTEND_ORIGIN=http://localhost:5173
+GEOCODING_ENABLED=true
+GEOCODING_USER_AGENT=learnzy-backend/1.0
 
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
@@ -80,3 +82,9 @@ Preferred payload:
 ```
 
 Backward compatibility exists for older fields (`houseNumber`, `location.latitude`, `location.longitude`), but new code should send the flat payload above.
+
+Geocoding behavior:
+- If `lat/lng` are missing, backend attempts to auto-resolve coordinates from available address parts (street/city/state/pincode/country).
+- Partial address is supported (for example: only city+state, or only pinCode).
+- If geocoding fails, backend stores `lat=0` and `lng=0`.
+- Disable geocoding via `GEOCODING_ENABLED=false`.

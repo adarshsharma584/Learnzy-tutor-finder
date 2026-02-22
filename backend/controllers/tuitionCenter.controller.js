@@ -5,16 +5,7 @@ import { AppError } from "../utils/appError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendSuccess } from "../utils/response.js";
 import { serializeTuitionCenter } from "../serializers/tuition.serializer.js";
-
-const normalizeAddressPayload = (address = {}) => ({
-  streetAddress: address.streetAddress || address.houseNumber || "",
-  city: address.city || "",
-  state: address.state || "",
-  country: address.country || "",
-  pinCode: address.pinCode || "",
-  lat: Number(address.lat ?? address.location?.latitude ?? 0),
-  lng: Number(address.lng ?? address.long ?? address.location?.longitude ?? 0),
-});
+import { resolveAddressPayload } from "../utils/address.js";
 
 const registerTuitionCenter = asyncHandler(async (req, res) => {
   const { name, teachers, address, subjects, boards, medium, mode } = req.body;
@@ -36,7 +27,7 @@ const registerTuitionCenter = asyncHandler(async (req, res) => {
 
   const savedAddress =
     address && typeof address === "object" && !Array.isArray(address)
-      ? await Address.create(normalizeAddressPayload(address))
+      ? await Address.create(await resolveAddressPayload(address))
       : address;
 
   const teacherIds = Array.isArray(teachers) ? teachers.map((item) => `${item}`) : [];

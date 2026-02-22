@@ -6,6 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendSuccess } from "../utils/response.js";
 import { clearAuthCookies, setAuthCookies } from "../utils/cookie.js";
 import { serializeUser } from "../serializers/user.serializer.js";
+import { resolveAddressPayload } from "../utils/address.js";
 
 const generateAccessAndRefreshToken = async (user) => {
   const accessToken = await user.generateAccessToken();
@@ -19,23 +20,14 @@ const generateAccessAndRefreshToken = async (user) => {
 
 const generateVerificationCode = () => Math.floor(100000 + Math.random() * 900000).toString();
 
-const normalizeAddressPayload = (address = {}) => ({
-  streetAddress: address.streetAddress || address.houseNumber || "",
-  city: address.city || "",
-  state: address.state || "",
-  country: address.country || "",
-  pinCode: address.pinCode || "",
-  lat: Number(address.lat ?? address.location?.latitude ?? 0),
-  lng: Number(address.lng ?? address.long ?? address.location?.longitude ?? 0),
-});
-
 const registerUser = asyncHandler(async (req, res) => {
   const { fullName, email, password, phone, address, role } = req.body;
 
   const existedUser = await User.findOne({ email });
   if (existedUser) throw new AppError("User already exists", 409);
 
-  const userAddress = await Address.create(normalizeAddressPayload(address));
+  const resolvedAddress = await resolveAddressPayload(address);
+  const userAddress = await Address.create(resolvedAddress);
 
   const user = await User.create({
     fullName,
