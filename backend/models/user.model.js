@@ -39,7 +39,7 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["user", "student", "parent", "tutor", "admin"],
+      enum: ["user", "student", "parent", "teacher", "admin"],
       default: "user",
     },
     profilePhoto: {

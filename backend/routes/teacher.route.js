@@ -7,5 +7,6 @@ import { validateRegisterTeacherBody } from "../schemas/teacher.schema.js";
 const router = Router();
 
 router.post("/register", verifyJWT, validateBody(validateRegisterTeacherBody), registerTeacher);
+router.post("/details", verifyJWT, validateBody(validateRegisterTeacherBody), registerTeacher);
 
 export default router;

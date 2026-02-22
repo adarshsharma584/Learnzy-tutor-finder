@@ -1,40 +1,38 @@
 import { Student } from "../models/student.model.js";
-import { User } from "../models/user.model.js";
+import { AppError } from "../utils/appError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendSuccess } from "../utils/response.js";
+import { serializeStudent } from "../serializers/student.serializer.js";
 
-const registerStudent = async (req, res) => {
-  try {
-    const { schoolName, enrollmentNumber, currentClass, previousClass } = req.body;
-    const userId = req.user?._id;
+const registerStudent = asyncHandler(async (req, res) => {
+  const { schoolName, enrollmentNumber, currentClass, board, medium } = req.body;
+  const userId = req.user._id;
 
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    if (!enrollmentNumber) {
-      return res.status(400).json({ message: "enrollmentNumber is required" });
-    }
-
-    const existingStudent = await Student.findOne({ userId });
-    if (existingStudent) {
-      return res.status(409).json({ message: "Student profile already exists" });
-    }
-
-    const newStudent = await Student.create({
-      userId,
-      schoolName,
-      enrollmentNumber,
-      currentClass,
-      previousClass,
-    });
-
-    await User.findByIdAndUpdate(userId, { $set: { role: "student" } }, { new: true });
-
-    return res
-      .status(201)
-      .json({ message: "Student registered successfully", student: newStudent });
-  } catch (error) {
-    return res.status(500).json({ message: "Failed to register student", error: error.message });
+  if (req.user.role !== "student") {
+    throw new AppError("Role must be student to create student profile", 403);
   }
-};
+
+  const existingStudent = await Student.findOne({ userId });
+  if (existingStudent) {
+    throw new AppError("Student profile already exists", 409);
+  }
+
+  const student = await Student.create({
+    userId,
+    schoolName,
+    enrollmentNumber,
+    currentClass,
+    board,
+    medium,
+  });
+
+  const populatedStudent = await Student.findById(student._id).populate("userId");
+
+  return sendSuccess(res, {
+    statusCode: 201,
+    message: "Student profile created successfully",
+    data: { student: serializeStudent(populatedStudent) },
+  });
+});
 
 export { registerStudent };

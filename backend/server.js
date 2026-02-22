@@ -14,6 +14,7 @@ import userRouter from "./routes/user.route.js";
 import tuitionCenterRouter from "./routes/tuitionCenter.route.js";
 import teacherRouter from "./routes/teacher.route.js";
 import batchRouter from "./routes/batch.route.js";
+import studentRouter from "./routes/student.route.js";
 
 // Load environment variables
 dotenv.config();
@@ -52,6 +53,7 @@ app.use(`${API_PREFIX}/auth`, userAuthRouter);
 app.use(`${API_PREFIX}/user`, userRouter);
 app.use(`${API_PREFIX}/tuition`, tuitionCenterRouter);
 app.use(`${API_PREFIX}/teacher`, teacherRouter);
+app.use(`${API_PREFIX}/student`, studentRouter);
 app.use(`${API_PREFIX}/batch`, batchRouter);
 
 // Error Handlers

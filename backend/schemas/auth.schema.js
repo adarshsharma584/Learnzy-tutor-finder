@@ -7,7 +7,7 @@ import {
   toTrimmedString,
 } from "./common.schema.js";
 
-const allowedRoles = ["user", "student", "parent", "tutor", "admin"];
+const allowedRoles = ["user", "student", "parent", "teacher", "admin"];
 
 const validateRegisterBody = (payload = {}) => {
   const errors = [];
@@ -16,7 +16,7 @@ const validateRegisterBody = (payload = {}) => {
     email: toTrimmedString(payload.email)?.toLowerCase(),
     password: payload.password,
     phone: normalizePhone(payload.phone),
-    role: payload.role || "student",
+    role: payload.role || "user",
     address: payload.address,
   };
 

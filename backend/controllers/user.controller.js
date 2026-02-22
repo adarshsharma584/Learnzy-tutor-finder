@@ -18,4 +18,20 @@ const userProfile = asyncHandler(async (req, res) => {
   });
 });
 
-export { userProfile };
+const setUserRole = asyncHandler(async (req, res) => {
+  const { role } = req.body;
+
+  const user = await User.findByIdAndUpdate(req.user._id, { $set: { role } }, { new: true })
+    .select("-password -refreshToken")
+    .populate("address");
+
+  if (!user) throw new AppError("Unauthorized user", 401);
+
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "User role updated successfully",
+    data: { user: serializeUser(user) },
+  });
+});
+
+export { userProfile, setUserRole };
