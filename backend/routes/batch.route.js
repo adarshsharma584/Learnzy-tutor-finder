@@ -13,5 +13,12 @@ router.post(
   validateBody(validateCreateBatchBody),
   createBatch
 );
+router.post(
+  "/:tuitionId",
+  verifyJWT,
+  validateParams(validateCreateBatchParams),
+  validateBody(validateCreateBatchBody),
+  createBatch
+);
 
 export default router;

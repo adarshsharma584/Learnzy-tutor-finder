@@ -1,4 +1,4 @@
-import { isNonEmptyString, isObject, toTrimmedString } from "./common.schema.js";
+import { isMongoObjectId, isNonEmptyString, isObject, toTrimmedString } from "./common.schema.js";
 
 const validateRegisterTuitionBody = (payload = {}) => {
   const errors = [];
@@ -19,6 +19,12 @@ const validateRegisterTuitionBody = (payload = {}) => {
   if (!isNonEmptyString(value.name)) errors.push("name is required");
   if (!isObject(value.address) && !isNonEmptyString(value.address)) {
     errors.push("address is required");
+  }
+  if (payload.teachers !== undefined && !Array.isArray(payload.teachers)) {
+    errors.push("teachers must be an array");
+  }
+  if (value.teachers.some((id) => !isMongoObjectId(`${id}`))) {
+    errors.push("teachers must contain valid Mongo ObjectId values");
   }
   if (value.subjects.length === 0) errors.push("subjects must be a non-empty array");
   if (value.boards.length === 0) errors.push("boards must be a non-empty array");
