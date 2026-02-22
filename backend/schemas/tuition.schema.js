@@ -36,4 +36,17 @@ const validateRegisterTuitionBody = (payload = {}) => {
   return { value, errors };
 };
 
-export { validateRegisterTuitionBody };
+const validateTuitionIdParams = (params = {}) => {
+  const errors = [];
+  const value = {
+    tuitionId: params.tuitionId,
+  };
+
+  if (!isMongoObjectId(value.tuitionId)) {
+    errors.push("tuitionId must be a valid Mongo ObjectId");
+  }
+
+  return { value, errors };
+};
+
+export { validateRegisterTuitionBody, validateTuitionIdParams };

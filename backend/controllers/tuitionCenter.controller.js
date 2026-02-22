@@ -85,4 +85,36 @@ const listMyTuitions = asyncHandler(async (req, res) => {
   });
 });
 
-export { registerTuitionCenter, listMyTuitions };
+const listAllTuitions = asyncHandler(async (_req, res) => {
+  const tuitions = await TuitionCenter.find({})
+    .sort({ createdAt: -1 })
+    .populate("owner")
+    .populate("teachers")
+    .populate("address")
+    .populate("batches");
+
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "All tuitions fetched successfully",
+    data: { tuitions: tuitions.map(serializeTuitionCenter) },
+  });
+});
+
+const getTuitionById = asyncHandler(async (req, res) => {
+  const { tuitionId } = req.params;
+  const tuitionCenter = await TuitionCenter.findById(tuitionId)
+    .populate("owner")
+    .populate("teachers")
+    .populate("address")
+    .populate("batches");
+
+  if (!tuitionCenter) throw new AppError("Tuition center not found", 404);
+
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "Tuition center fetched successfully",
+    data: { tuitionCenter: serializeTuitionCenter(tuitionCenter) },
+  });
+});
+
+export { registerTuitionCenter, listMyTuitions, listAllTuitions, getTuitionById };

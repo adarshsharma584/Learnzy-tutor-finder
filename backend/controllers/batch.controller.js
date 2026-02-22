@@ -57,4 +57,24 @@ const createBatch = asyncHandler(async (req, res) => {
   });
 });
 
-export { createBatch };
+const listBatchesByTuition = asyncHandler(async (req, res) => {
+  const { tuitionId } = req.params;
+
+  const tuition = await TuitionCenter.findById(tuitionId);
+  if (!tuition) {
+    throw new AppError("Tuition center not found", 404);
+  }
+
+  const batches = await Batch.find({ tuitionId })
+    .sort({ createdAt: -1 })
+    .populate("tuitionId")
+    .populate("teachersId");
+
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "Batches fetched successfully",
+    data: { batches: batches.map(serializeBatch) },
+  });
+});
+
+export { createBatch, listBatchesByTuition };
