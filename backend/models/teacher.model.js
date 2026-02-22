@@ -25,6 +25,12 @@ const teacherSchema = new Schema(
       type: String,
       enum: ["student", "working professional"],
     },
+    qualifications: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     isQualified: {
       type: Boolean,
       default: false,

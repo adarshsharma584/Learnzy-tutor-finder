@@ -10,6 +10,7 @@ const serializeTeacher = (teacherDoc) => {
     subjects: teacher.subjects,
     experience: teacher.experience,
     currentStatus: teacher.currentStatus,
+    qualifications: teacher.qualifications || [],
     isQualified: teacher.isQualified,
     isTestVerified: teacher.isTestVerified,
     testScore: teacher.testScore,

@@ -8,6 +8,9 @@ const validateRegisterTeacherBody = (payload = {}) => {
       : [],
     experience: Number(payload.experience),
     currentStatus: toTrimmedString(payload.currentStatus),
+    qualifications: Array.isArray(payload.qualifications)
+      ? payload.qualifications.filter(isNonEmptyString).map((item) => item.trim())
+      : [],
     isQualified: payload.isQualified,
   };
 
@@ -17,6 +20,12 @@ const validateRegisterTeacherBody = (payload = {}) => {
   }
   if (!["student", "working professional"].includes(value.currentStatus)) {
     errors.push("currentStatus is invalid");
+  }
+  if (
+    payload.qualifications !== undefined &&
+    (!Array.isArray(payload.qualifications) || value.qualifications.length === 0)
+  ) {
+    errors.push("qualifications must be a non-empty array of strings");
   }
   if (typeof value.isQualified !== "boolean") {
     errors.push("isQualified must be boolean");

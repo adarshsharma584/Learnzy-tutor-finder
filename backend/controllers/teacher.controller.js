@@ -5,7 +5,7 @@ import { sendSuccess } from "../utils/response.js";
 import { serializeTeacher } from "../serializers/teacher.serializer.js";
 
 const registerTeacher = asyncHandler(async (req, res) => {
-  const { subjects, experience, currentStatus, isQualified } = req.body;
+  const { subjects, experience, currentStatus, qualifications, isQualified } = req.body;
   const userId = req.user._id;
 
   if (req.user.role !== "teacher") {
@@ -22,6 +22,7 @@ const registerTeacher = asyncHandler(async (req, res) => {
     subjects,
     experience,
     currentStatus,
+    qualifications,
     isQualified,
   });
 
