@@ -20,13 +20,17 @@ const validateRegisterBody = (payload = {}) => {
     address: payload.address,
   };
 
-  if (!isNonEmptyString(value.fullName) || value.fullName.length < 3) {
+  if (!isNonEmptyString(value.fullName)) {
+    errors.push("fullName is required");
+  } else if (value.fullName.length < 3) {
     errors.push("fullName must be at least 3 characters");
   }
   if (!isEmail(value.email)) {
     errors.push("email must be valid");
   }
-  if (typeof value.password !== "string" || value.password.length < 6) {
+  if (typeof value.password !== "string" || value.password.trim().length === 0) {
+    errors.push("password is required");
+  } else if (value.password.length < 6) {
     errors.push("password must be at least 6 characters");
   }
   if (!isPhone(value.phone)) {
@@ -50,7 +54,9 @@ const validateLoginBody = (payload = {}) => {
   };
 
   if (!isEmail(value.email)) errors.push("email must be valid");
-  if (typeof value.password !== "string" || value.password.length < 6) {
+  if (typeof value.password !== "string" || value.password.trim().length === 0) {
+    errors.push("password is required");
+  } else if (value.password.length < 6) {
     errors.push("password must be at least 6 characters");
   }
 
